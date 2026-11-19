@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Species {
+  id                 String   @id @default(cuid())
+  name               String   @unique
+  pronunciation      String
+  meaning            String
+  period             String   // e.g. "Cretáceo Superior"
+  periodEra          String   // "Triássico", "Jurássico", "Cretáceo"
+  mya                String   // "68 - 66 milhões de anos atrás"
+  myaStart           Float    // 68.0
+  myaEnd             Float    // 66.0
+  clade              String   // "Theropoda", "Sauropodomorpha", "Ornithischia", "Pterosauria"
+  family             String   // "Tyrannosauridae", etc.
+  diet               String   // "Carnívoro", "Herbívoro", "Onívoro", "Piscívoro"
+  habit              String   // "Bípede Terrestre", "Quadrúpede Terrestre", "Voador", "Semiaquático"
+  length             Float    // em metros
+  height             Float    // em metros
+  weight             Float    // em quilogramas
+  speed              Float    // km/h estimado
+  discoveryYear      Int
+  discoverer         String
+  fossilLocations    String   // países e formações
+  latitude           Float?
+  longitude          Float?
+  brazilOccurrence   Boolean  @default(false)
+  
+  // ADR-002: Triplas de conteúdo por faixa etária
+  descInfantil       String
+  descEscolar        String
+  descAcademica      String
+  
+  funFact            String
+  dietDetails        String
+  skeletonNotes      String
+  muscleNotes        String
+  integumentNotes    String   // penas, escamas, osteodermas
+  
+  modelType          String   @default("theropod") // "theropod", "sauropod", "ceratopsian", "stegosaur", "pterosaur", "ankylosaur"
+  colorTheme         String   @default("#e28743")
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model ForumTopic {
+  id          String      @id @default(cuid())
+  title       String
+  content     String
+  category    String      // "Descobertas", "Dúvidas Escolares", "Debates Científicos", "Fósseis no Brasil"
+  authorName  String
+  authorRole  String      // "Aluno", "Professor", "Paleontólogo Curador", "Administrador"
+  isVerified  Boolean     @default(false)
+  isPinned    Boolean     @default(false)
+  likes       Int         @default(0)
+  createdAt   DateTime    @default(now())
+  posts       ForumPost[]
+}
+
+model ForumPost {
+  id          String     @id @default(cuid())
+  topicId     String
+  topic       ForumTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  content     String
+  authorName  String
+  authorRole  String     // "Aluno", "Professor", "Paleontólogo Curador", "Administrador"
+  isVerified  Boolean    @default(false)
+  likes       Int        @default(0)
+  createdAt   DateTime   @default(now())
+}
+
+model QuizQuestion {
+  id            String   @id @default(cuid())
+  category      String   // "identificacao", "periodo", "dieta", "anatomia"
+  level         String   // "infantil", "escolar", "academico"
+  question      String
+  options       String   // JSON string of string[]
+  correctIndex  Int
+  explanation   String
+  speciesHint   String?
+  createdAt     DateTime @default(now())
+}
+
+model CurationLog {
+  id          String   @id @default(cuid())
+  action      String   // "CREATE_SPECIES", "UPDATE_DESC", "MODERATE_POST", "SYNC_PBDB"
+  author      String
+  details     String
+  timestamp   DateTime @default(now())
+}
