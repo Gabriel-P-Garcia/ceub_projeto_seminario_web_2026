@@ -19,7 +19,7 @@ import {
 
 interface Dinosaur3DViewerProps {
   speciesName: string;
-  modelType: string; // "theropod" | "sauropod" | "ceratopsian" | "stegosaur" | "ankylosaur" | "pterosaur"
+  modelType: string;
   lengthMeters: number;
   heightMeters: number;
   skeletonNotes?: string;
@@ -60,7 +60,6 @@ export default function Dinosaur3DViewer({
   const [loading, setLoading] = useState<boolean>(true);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
-  // References to 3D groups for dynamic layer toggling
   const sceneRef = useRef<THREE.Scene | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
   const skeletonGroupRef = useRef<THREE.Group | null>(null);
@@ -69,7 +68,6 @@ export default function Dinosaur3DViewer({
   const scaleObjectGroupRef = useRef<THREE.Group | null>(null);
   const lightsGroupRef = useRef<THREE.Group | null>(null);
 
-  // Define Hotspots according to dinosaur clade/type
   const hotspots: Hotspot[] = React.useMemo(() => {
     if (modelType === "sauropod") {
       return [
@@ -108,7 +106,6 @@ export default function Dinosaur3DViewer({
         },
       ];
     } else {
-      // Theropod default (T-Rex, Oxalaia, Buriolestes, etc.)
       return [
         {
           title: "Fenestra Antorbital & Olfato",
@@ -136,50 +133,46 @@ export default function Dinosaur3DViewer({
     const container = containerRef.current;
     if (!container) return;
 
-    // Dimensões do container
     const width = container.clientWidth || 800;
     const height = container.clientHeight || 500;
 
-    // Criação da cena Three.js
+    // Cena com atmosfera CEUB Deep Purple
     const scene = new THREE.Scene();
     sceneRef.current = scene;
-    scene.background = new THREE.Color("#0f172a"); // Slate profundo de museu
-    scene.fog = new THREE.FogExp2("#0f172a", 0.035);
+    scene.background = new THREE.Color("#0d0118");
+    scene.fog = new THREE.FogExp2("#0d0118", 0.035);
 
-    // Câmera com FOV realista
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
     camera.position.set(6, 3.5, 7);
 
-    // Renderizador WebGL otimizado
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.15;
 
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
 
-    // Controles Orbitais
     const controls = new OrbitControls(camera, renderer.domElement);
     controlsRef.current = controls;
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.maxPolarAngle = Math.PI / 2 - 0.02; // Não atravessar o chão
+    controls.maxPolarAngle = Math.PI / 2 - 0.02;
     controls.minDistance = 2.5;
     controls.maxDistance = 25;
     controls.target.set(0, 1.5, 0);
 
-    // Piso de escavação paleontológica / grid de medição métrica
-    const gridHelper = new THREE.GridHelper(24, 24, 0xd97706, 0x334155);
+    // Grid com cores da marca CEUB (#be007a e #3c0554)
+    const gridHelper = new THREE.GridHelper(24, 24, 0xbe007a, 0x3c0554);
     gridHelper.position.y = 0;
     scene.add(gridHelper);
 
     const floorGeo = new THREE.PlaneGeometry(30, 30);
     const floorMat = new THREE.MeshStandardMaterial({
-      color: 0x090d16,
+      color: 0x07000d,
       roughness: 0.85,
       metalness: 0.1,
     });
@@ -188,28 +181,26 @@ export default function Dinosaur3DViewer({
     floor.receiveShadow = true;
     scene.add(floor);
 
-    // Grupo de Iluminação
+    // Luzes
     const lightsGroup = new THREE.Group();
     lightsGroupRef.current = lightsGroup;
     scene.add(lightsGroup);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
     lightsGroup.add(ambientLight);
 
-    const mainSpot = new THREE.SpotLight(0xffecd2, 4.5);
+    const mainSpot = new THREE.SpotLight(0xfdf4ff, 4.8);
     mainSpot.position.set(8, 12, 8);
     mainSpot.angle = Math.PI / 4;
     mainSpot.penumbra = 0.4;
     mainSpot.castShadow = true;
-    mainSpot.shadow.mapSize.width = 1024;
-    mainSpot.shadow.mapSize.height = 1024;
     lightsGroup.add(mainSpot);
 
-    const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.0);
+    const rimLight = new THREE.DirectionalLight(0xd946ef, 2.2);
     rimLight.position.set(-8, 6, -8);
     lightsGroup.add(rimLight);
 
-    // --- CONSTRUÇÃO DOS MODELOS ANATÔMICOS PROCEDURAIS PRECISOS ---
+    // Grupos Anatômicos
     const skeletonGroup = new THREE.Group();
     const muscleGroup = new THREE.Group();
     const integumentGroup = new THREE.Group();
@@ -221,38 +212,32 @@ export default function Dinosaur3DViewer({
     scene.add(muscleGroup);
     scene.add(integumentGroup);
 
-    // Materiais anatômicos
     const boneMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf5eedc, // Cor de osso fóssil
+      color: 0xf5eedc,
       roughness: 0.45,
       metalness: 0.05,
-      wireframe: false,
     });
 
     const muscleMaterial = new THREE.MeshStandardMaterial({
-      color: 0x991b1b, // Vermelho muscular profundo
+      color: 0x9f1239,
       roughness: 0.6,
       transparent: true,
       opacity: 0.85,
     });
 
     const skinMaterial = new THREE.MeshStandardMaterial({
-      color: modelType === "sauropod" ? 0x22543d : modelType === "ceratopsian" ? 0x9a3412 : 0xb45309,
+      color: modelType === "sauropod" ? 0x22543d : modelType === "ceratopsian" ? 0x9a3412 : 0x7e22ce,
       roughness: 0.7,
       transparent: true,
       opacity: 0.82,
     });
 
-    // Construção de acordo com a morfologia
     if (modelType === "sauropod") {
-      // 1. ESQUELETO SAURÓPODE
-      // Crânio pequeno
       const skullGeo = new THREE.BoxGeometry(0.7, 0.5, 0.6);
       const skull = new THREE.Mesh(skullGeo, boneMaterial);
       skull.position.set(3.2, 3.6, 0);
       skeletonGroup.add(skull);
 
-      // Coluna cervical alongada (pescoço)
       for (let i = 0; i < 7; i++) {
         const vertGeo = new THREE.CylinderGeometry(0.2, 0.25, 0.5, 8);
         const vert = new THREE.Mesh(vertGeo, boneMaterial);
@@ -261,14 +246,12 @@ export default function Dinosaur3DViewer({
         skeletonGroup.add(vert);
       }
 
-      // Caixa torácica maciça
       const ribCageGeo = new THREE.CylinderGeometry(1.4, 1.3, 2.8, 12);
       const ribCage = new THREE.Mesh(ribCageGeo, boneMaterial);
       ribCage.rotation.z = Math.PI / 2;
       ribCage.position.set(-0.2, 2.2, 0);
       skeletonGroup.add(ribCage);
 
-      // 4 membros colunares
       const legGeo = new THREE.CylinderGeometry(0.3, 0.35, 2.0, 10);
       [
         [0.8, 1.0, 0.9],
@@ -281,7 +264,6 @@ export default function Dinosaur3DViewer({
         skeletonGroup.add(leg);
       });
 
-      // Cauda
       for (let i = 0; i < 8; i++) {
         const tailGeo = new THREE.CylinderGeometry(0.25 - i * 0.025, 0.3 - i * 0.025, 0.5, 8);
         const tailVert = new THREE.Mesh(tailGeo, boneMaterial);
@@ -290,7 +272,6 @@ export default function Dinosaur3DViewer({
         skeletonGroup.add(tailVert);
       }
 
-      // 2. MÚSCULOS SAURÓPODE
       const neckMuscles = new THREE.ConeGeometry(0.5, 3.5, 12);
       const neckM = new THREE.Mesh(neckMuscles, muscleMaterial);
       neckM.position.set(1.8, 2.8, 0);
@@ -303,7 +284,6 @@ export default function Dinosaur3DViewer({
       torsoM.scale.set(1.4, 1.0, 1.0);
       muscleGroup.add(torsoM);
 
-      // 3. PELE SAURÓPODE
       const skinGeo = new THREE.CylinderGeometry(1.5, 1.4, 3.2, 16);
       const skinMesh = new THREE.Mesh(skinGeo, skinMaterial);
       skinMesh.rotation.z = Math.PI / 2;
@@ -316,22 +296,18 @@ export default function Dinosaur3DViewer({
       skinN.rotation.z = -Math.PI / 3.5;
       integumentGroup.add(skinN);
     } else {
-      // TERÓPODE (Bípede Predador: T-Rex, Spinosaurus, Oxalaia, etc.)
-      // 1. ESQUELETO
-      // Crânio com fenestras
+      // Terópodes
       const skullGeo = new THREE.BoxGeometry(1.4, 0.7, 0.6);
       const skull = new THREE.Mesh(skullGeo, boneMaterial);
       skull.position.set(2.4, 2.2, 0);
       skull.castShadow = true;
       skeletonGroup.add(skull);
 
-      // Mandíbula inferior
       const jawGeo = new THREE.BoxGeometry(1.3, 0.25, 0.55);
       const jaw = new THREE.Mesh(jawGeo, boneMaterial);
       jaw.position.set(2.35, 1.75, 0);
       skeletonGroup.add(jaw);
 
-      // Dentes incrassados
       for (let i = 0; i < 6; i++) {
         const toothGeo = new THREE.ConeGeometry(0.04, 0.15, 6);
         const toothMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 });
@@ -345,14 +321,12 @@ export default function Dinosaur3DViewer({
         skeletonGroup.add(toothL);
       }
 
-      // Coluna dorsal e costelas
       const spineGeo = new THREE.CylinderGeometry(0.12, 0.12, 2.6, 8);
       const spine = new THREE.Mesh(spineGeo, boneMaterial);
       spine.position.set(0.6, 2.0, 0);
       spine.rotation.z = Math.PI / 2.2;
       skeletonGroup.add(spine);
 
-      // Costelas e Gastrália (costelas abdominais)
       for (let i = 0; i < 5; i++) {
         const ribGeo = new THREE.TorusGeometry(0.6 - i * 0.05, 0.04, 6, 12, Math.PI);
         const rib = new THREE.Mesh(ribGeo, boneMaterial);
@@ -361,36 +335,30 @@ export default function Dinosaur3DViewer({
         skeletonGroup.add(rib);
       }
 
-      // Pélvis e Sacro
       const pelvisGeo = new THREE.BoxGeometry(0.8, 0.5, 0.7);
       const pelvis = new THREE.Mesh(pelvisGeo, boneMaterial);
       pelvis.position.set(-0.3, 2.1, 0);
       skeletonGroup.add(pelvis);
 
-      // Pernas bípedes digitígradas (Fêmur + Tíbia + Metatarsos)
       [-0.45, 0.45].forEach((zPos) => {
-        // Fêmur
         const femurGeo = new THREE.CylinderGeometry(0.14, 0.12, 1.1, 8);
         const femur = new THREE.Mesh(femurGeo, boneMaterial);
         femur.position.set(-0.2, 1.6, zPos);
         femur.rotation.z = -0.25;
         skeletonGroup.add(femur);
 
-        // Tíbia / Fíbula
         const tibiaGeo = new THREE.CylinderGeometry(0.11, 0.09, 1.1, 8);
         const tibia = new THREE.Mesh(tibiaGeo, boneMaterial);
         tibia.position.set(-0.05, 0.7, zPos);
         tibia.rotation.z = 0.25;
         skeletonGroup.add(tibia);
 
-        // Pé com garras
         const footGeo = new THREE.BoxGeometry(0.6, 0.1, 0.25);
         const foot = new THREE.Mesh(footGeo, boneMaterial);
         foot.position.set(0.2, 0.1, zPos);
         skeletonGroup.add(foot);
       });
 
-      // Bracinhos terópodes (dímero reduzido)
       [-0.35, 0.35].forEach((zPos) => {
         const armGeo = new THREE.CylinderGeometry(0.06, 0.05, 0.45, 6);
         const arm = new THREE.Mesh(armGeo, boneMaterial);
@@ -399,7 +367,6 @@ export default function Dinosaur3DViewer({
         skeletonGroup.add(arm);
       });
 
-      // Cauda (Vértebras caudais estendidas para contrapeso)
       for (let i = 0; i < 9; i++) {
         const vertGeo = new THREE.CylinderGeometry(0.14 - i * 0.012, 0.16 - i * 0.012, 0.45, 8);
         const vert = new THREE.Mesh(vertGeo, boneMaterial);
@@ -408,7 +375,6 @@ export default function Dinosaur3DViewer({
         skeletonGroup.add(vert);
       }
 
-      // 2. CAMADA MUSCULAR (M. Caudofemoralis, Músculo Mandibular, Coxas)
       const jawMuscleGeo = new THREE.SphereGeometry(0.35, 12, 12);
       const jawM = new THREE.Mesh(jawMuscleGeo, muscleMaterial);
       jawM.position.set(1.85, 2.0, 0);
@@ -421,7 +387,6 @@ export default function Dinosaur3DViewer({
       neckM.rotation.z = -Math.PI / 4;
       muscleGroup.add(neckM);
 
-      // Coxas musculosas
       [-0.45, 0.45].forEach((zPos) => {
         const thighGeo = new THREE.CapsuleGeometry(0.32, 0.8, 8, 12);
         const thigh = new THREE.Mesh(thighGeo, muscleMaterial);
@@ -430,14 +395,12 @@ export default function Dinosaur3DViewer({
         muscleGroup.add(thigh);
       });
 
-      // M. Caudofemoralis (Base da cauda)
       const caudofemoralisGeo = new THREE.ConeGeometry(0.5, 2.2, 10);
       const caudo = new THREE.Mesh(caudofemoralisGeo, muscleMaterial);
       caudo.position.set(-1.4, 1.95, 0);
       caudo.rotation.z = -Math.PI / 2.05;
       muscleGroup.add(caudo);
 
-      // 3. CAMADA DE TEGUMENTO / PELE & PENAS
       const bodySkinGeo = new THREE.CapsuleGeometry(0.7, 1.8, 12, 18);
       const bodySkin = new THREE.Mesh(bodySkinGeo, skinMaterial);
       bodySkin.position.set(0.6, 1.9, 0);
@@ -455,10 +418,7 @@ export default function Dinosaur3DViewer({
       tailSkin.rotation.z = -Math.PI / 2.08;
       integumentGroup.add(tailSkin);
 
-      // Se for carnívoro emplumado ou cristas dorsais (como Spinosaurus / Oxalaia)
       if (speciesName.toLowerCase().includes("oxalaia") || speciesName.toLowerCase().includes("spino")) {
-        const sailGeo = new THREE.BufferGeometry();
-        // Vela dorsal espinossaurídea
         const sailShape = new THREE.Shape();
         sailShape.moveTo(0, 0);
         sailShape.lineTo(0.5, 1.8);
@@ -468,7 +428,7 @@ export default function Dinosaur3DViewer({
         const extrudeSettings = { depth: 0.05, bevelEnabled: false };
         const sailGeom = new THREE.ExtrudeGeometry(sailShape, extrudeSettings);
         const sailMat = new THREE.MeshStandardMaterial({
-          color: 0x059669,
+          color: 0xbe007a,
           roughness: 0.6,
           side: THREE.DoubleSide,
         });
@@ -478,31 +438,27 @@ export default function Dinosaur3DViewer({
       }
     }
 
-    // --- OBJETO DE COMPARAÇÃO DE ESCALA RELATIVA ---
+    // Escala
     const scaleGroup = new THREE.Group();
     scaleObjectGroupRef.current = scaleGroup;
     scene.add(scaleGroup);
 
-    // Construtor de silhueta humana padrão (1.8m de altura)
     function buildHumanSilhouette() {
       const human = new THREE.Group();
       const humanMat = new THREE.MeshStandardMaterial({
-        color: 0x38bdf8,
+        color: 0xf43f9e,
         roughness: 0.5,
         wireframe: true,
       });
 
-      // Cabeça
       const head = new THREE.Mesh(new THREE.SphereGeometry(0.12, 10, 10), humanMat);
       head.position.y = 1.68;
       human.add(head);
 
-      // Tronco
       const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.14, 0.65, 8), humanMat);
       torso.position.y = 1.25;
       human.add(torso);
 
-      // Pernas
       const leftLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.9, 6), humanMat);
       leftLeg.position.set(-0.1, 0.45, 0);
       const rightLeg = leftLeg.clone();
@@ -510,7 +466,6 @@ export default function Dinosaur3DViewer({
       human.add(leftLeg);
       human.add(rightLeg);
 
-      // Braços
       const leftArm = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.65, 6), humanMat);
       leftArm.position.set(-0.25, 1.25, 0);
       const rightArm = leftArm.clone();
@@ -522,11 +477,10 @@ export default function Dinosaur3DViewer({
       return human;
     }
 
-    // Carro moderno (4.5m)
     function buildCarSilhouette() {
       const car = new THREE.Group();
       const carMat = new THREE.MeshStandardMaterial({
-        color: 0xf59e0b,
+        color: 0xd946ef,
         roughness: 0.3,
         wireframe: true,
       });
@@ -537,11 +491,10 @@ export default function Dinosaur3DViewer({
       return car;
     }
 
-    // Elefante Africano (3.2m de altura)
     function buildElephantSilhouette() {
       const ele = new THREE.Group();
       const eleMat = new THREE.MeshStandardMaterial({
-        color: 0x94a3b8,
+        color: 0xa855f7,
         roughness: 0.6,
         wireframe: true,
       });
@@ -549,21 +502,15 @@ export default function Dinosaur3DViewer({
       body.position.set(0, 2.1, 0);
       ele.add(body);
 
-      // 4 patas
       for (let i = 0; i < 4; i++) {
         const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.3, 1.8, 8), eleMat);
-        leg.position.set(
-          i < 2 ? 1.0 : -1.0,
-          0.9,
-          i % 2 === 0 ? 0.7 : -0.7
-        );
+        leg.position.set(i < 2 ? 1.0 : -1.0, 0.9, i % 2 === 0 ? 0.7 : -0.7);
         ele.add(leg);
       }
       ele.position.set(-3.5, 0, 2.5);
       return ele;
     }
 
-    // Atualizar objeto de escala
     function updateScaleObject(target: string) {
       if (!scaleObjectGroupRef.current) return;
       scaleObjectGroupRef.current.clear();
@@ -579,7 +526,7 @@ export default function Dinosaur3DViewer({
 
     updateScaleObject(scaleTarget);
 
-    // --- MARCADORES INTERATIVOS DE ANATOMIA (CALLOUT HOTSPOTS) ---
+    // Hotspots com Magenta CEUB (#be007a)
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     const markerMeshes: THREE.Mesh[] = [];
@@ -587,9 +534,9 @@ export default function Dinosaur3DViewer({
     hotspots.forEach((spot, idx) => {
       const markerGeo = new THREE.SphereGeometry(0.12, 16, 16);
       const markerMat = new THREE.MeshStandardMaterial({
-        color: 0xf59e0b,
-        emissive: 0xd97706,
-        emissiveIntensity: 0.8,
+        color: 0xbe007a,
+        emissive: 0xd8008b,
+        emissiveIntensity: 0.9,
         roughness: 0.2,
       });
       const marker = new THREE.Mesh(markerGeo, markerMat);
@@ -598,13 +545,12 @@ export default function Dinosaur3DViewer({
       scene.add(marker);
       markerMeshes.push(marker);
 
-      // Anel pulsante ao redor do marcador
       const ringGeo = new THREE.RingGeometry(0.16, 0.22, 24);
       const ringMat = new THREE.MeshBasicMaterial({
-        color: 0xfbbf24,
+        color: 0xf43f9e,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.8,
       });
       const ring = new THREE.Mesh(ringGeo, ringMat);
       ring.position.copy(spot.position);
@@ -612,7 +558,6 @@ export default function Dinosaur3DViewer({
       scene.add(ring);
     });
 
-    // Clique em Hotspot
     const onCanvasClick = (event: MouseEvent) => {
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -633,7 +578,6 @@ export default function Dinosaur3DViewer({
 
     renderer.domElement.addEventListener("click", onCanvasClick);
 
-    // Loop de Animação
     let animationFrameId: number;
     let clock = new THREE.Clock();
 
@@ -642,12 +586,10 @@ export default function Dinosaur3DViewer({
       const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
 
-      // Rotação suave automática se ativada
       if (autoRotate && controlsRef.current) {
         scene.rotation.y += delta * 0.15;
       }
 
-      // Pulsação sutil nos marcadores anatômicos
       markerMeshes.forEach((m, idx) => {
         const s = 1 + Math.sin(elapsedTime * 3 + idx) * 0.15;
         m.scale.set(s, s, s);
@@ -660,7 +602,6 @@ export default function Dinosaur3DViewer({
     animate();
     setLoading(false);
 
-    // Resize observer
     const handleResize = () => {
       if (!container) return;
       const w = container.clientWidth;
@@ -681,7 +622,6 @@ export default function Dinosaur3DViewer({
     };
   }, [modelType, speciesName, hotspots, autoRotate]);
 
-  // Atualização reativa de Camadas (Esqueleto / Músculo / Pele)
   useEffect(() => {
     if (!skeletonGroupRef.current || !muscleGroupRef.current || !integumentGroupRef.current)
       return;
@@ -699,14 +639,12 @@ export default function Dinosaur3DViewer({
       muscleGroupRef.current.visible = false;
       integumentGroupRef.current.visible = true;
     } else {
-      // 'all'
       skeletonGroupRef.current.visible = true;
       muscleGroupRef.current.visible = true;
       integumentGroupRef.current.visible = true;
     }
   }, [current3DLayer]);
 
-  // Atualização reativa de Wireframe
   useEffect(() => {
     [skeletonGroupRef.current, muscleGroupRef.current, integumentGroupRef.current].forEach(
       (grp) => {
@@ -720,28 +658,26 @@ export default function Dinosaur3DViewer({
     );
   }, [wireframe]);
 
-  // Atualização reativa de Iluminação
   useEffect(() => {
     if (!lightsGroupRef.current) return;
     lightsGroupRef.current.clear();
 
     if (lightingMode === "museum") {
       const amb = new THREE.AmbientLight(0xffffff, 0.7);
-      const spot = new THREE.SpotLight(0xffecd2, 4.0);
+      const spot = new THREE.SpotLight(0xfdf4ff, 4.2);
       spot.position.set(6, 12, 6);
-      const rim = new THREE.DirectionalLight(0x38bdf8, 2.0);
+      const rim = new THREE.DirectionalLight(0xd946ef, 2.2);
       rim.position.set(-6, 5, -6);
       lightsGroupRef.current.add(amb, spot, rim);
     } else if (lightingMode === "daylight") {
       const sun = new THREE.DirectionalLight(0xffffff, 3.5);
       sun.position.set(10, 15, 10);
-      const amb = new THREE.AmbientLight(0xbae6fd, 1.2);
+      const amb = new THREE.AmbientLight(0xf5d0fe, 1.2);
       lightsGroupRef.current.add(sun, amb);
     } else {
-      // Sunset
-      const sunset = new THREE.DirectionalLight(0xf97316, 3.8);
+      const sunset = new THREE.DirectionalLight(0xc026d3, 3.8);
       sunset.position.set(-10, 5, 8);
-      const amb = new THREE.AmbientLight(0x451a03, 1.5);
+      const amb = new THREE.AmbientLight(0x3b0764, 1.5);
       lightsGroupRef.current.add(sunset, amb);
     }
   }, [lightingMode]);
@@ -759,31 +695,28 @@ export default function Dinosaur3DViewer({
 
   return (
     <div
-      className={`relative w-full rounded-2xl overflow-hidden border border-amber-900/40 bg-slate-950 shadow-2xl transition-all ${
+      className={`relative w-full rounded-2xl overflow-hidden border border-[#59107b]/70 bg-[#0d0118] shadow-2xl transition-all ${
         isFullscreen ? "fixed inset-0 z-50 rounded-none h-screen" : "h-[540px] md:h-[620px]"
       }`}
     >
-      {/* Canvas 3D */}
       <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
 
-      {/* Loading Overlay */}
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-950/80 backdrop-blur-md">
+        <div className="absolute inset-0 flex items-center justify-center bg-[#0d0118]/85 backdrop-blur-md">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-amber-400 font-medium text-sm">
-              Carregando Modelo Anatômico 3D (R3F/Three.js)...
+            <div className="w-12 h-12 border-4 border-[#be007a] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <p className="text-fuchsia-300 font-medium text-sm">
+              Carregando Laboratório 3D CEUB (Three.js)...
             </p>
           </div>
         </div>
       )}
 
-      {/* Barra de Ferramentas Superior - ADR-001 Controles de Camadas */}
+      {/* Barra de Ferramentas Superior */}
       <div className="absolute top-4 left-4 right-4 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-        {/* Camadas Anatômicas */}
-        <div className="pointer-events-auto flex items-center gap-1 bg-slate-900/90 backdrop-blur-md p-1.5 rounded-xl border border-slate-700/60 shadow-lg text-xs">
-          <span className="text-slate-400 px-2 font-semibold flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-amber-500" /> Camada:
+        <div className="pointer-events-auto flex items-center gap-1 bg-[#17032a]/90 backdrop-blur-md p-1.5 rounded-xl border border-[#59107b]/60 shadow-lg text-xs">
+          <span className="text-purple-300 px-2 font-semibold flex items-center gap-1.5">
+            <Layers className="w-3.5 h-3.5 text-[#be007a]" /> Camada:
           </span>
           <button
             onClick={() => {
@@ -792,8 +725,8 @@ export default function Dinosaur3DViewer({
             }}
             className={`px-2.5 py-1 rounded-lg font-medium transition ${
               current3DLayer === "all"
-                ? "bg-amber-600 text-white shadow"
-                : "text-slate-300 hover:bg-slate-800"
+                ? "bg-[#be007a] text-white shadow"
+                : "text-purple-200 hover:bg-[#280540]"
             }`}
           >
             Completo
@@ -805,10 +738,9 @@ export default function Dinosaur3DViewer({
             }}
             className={`px-2.5 py-1 rounded-lg font-medium transition ${
               current3DLayer === "skeleton"
-                ? "bg-amber-600 text-white shadow"
-                : "text-slate-300 hover:bg-slate-800"
+                ? "bg-[#be007a] text-white shadow"
+                : "text-purple-200 hover:bg-[#280540]"
             }`}
-            title="Visualizar osteologia e estrutura óssea"
           >
             🦴 Esqueleto
           </button>
@@ -819,10 +751,9 @@ export default function Dinosaur3DViewer({
             }}
             className={`px-2.5 py-1 rounded-lg font-medium transition ${
               current3DLayer === "muscles"
-                ? "bg-amber-600 text-white shadow"
-                : "text-slate-300 hover:bg-slate-800"
+                ? "bg-[#be007a] text-white shadow"
+                : "text-purple-200 hover:bg-[#280540]"
             }`}
-            title="Visualizar sistema muscular e tração motora"
           >
             🥩 Músculos
           </button>
@@ -833,26 +764,24 @@ export default function Dinosaur3DViewer({
             }}
             className={`px-2.5 py-1 rounded-lg font-medium transition ${
               current3DLayer === "integument"
-                ? "bg-amber-600 text-white shadow"
-                : "text-slate-300 hover:bg-slate-800"
+                ? "bg-[#be007a] text-white shadow"
+                : "text-purple-200 hover:bg-[#280540]"
             }`}
-            title="Visualizar escamas, penas e tegumento dérmico"
           >
             🦎 Pele & Penas
           </button>
         </div>
 
-        {/* Comparação de Escala e Ações Rápidas */}
-        <div className="pointer-events-auto flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md p-1.5 rounded-xl border border-slate-700/60 shadow-lg text-xs">
-          <Users className="w-3.5 h-3.5 text-sky-400 ml-1" />
-          <span className="text-slate-400 hidden sm:inline">Escala:</span>
+        <div className="pointer-events-auto flex items-center gap-1.5 bg-[#17032a]/90 backdrop-blur-md p-1.5 rounded-xl border border-[#59107b]/60 shadow-lg text-xs">
+          <Users className="w-3.5 h-3.5 text-[#f43f9e] ml-1" />
+          <span className="text-purple-300 hidden sm:inline">Escala:</span>
           <select
             value={scaleTarget}
             onChange={(e) => {
               setScaleTarget(e.target.value as any);
               playSound("click");
             }}
-            className="bg-slate-800 text-sky-300 font-medium rounded-lg px-2 py-1 border border-slate-700 focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="bg-[#280540] text-fuchsia-200 font-medium rounded-lg px-2 py-1 border border-[#59107b] focus:outline-none focus:ring-1 focus:ring-[#be007a]"
           >
             <option value="none">Nenhum</option>
             <option value="human">Humano (1.8m)</option>
@@ -860,27 +789,25 @@ export default function Dinosaur3DViewer({
             <option value="elephant">Elefante (3.2m)</option>
           </select>
 
-          {/* Narração de Acessibilidade */}
           <button
             onClick={() => {
               const textToSpeak = `${speciesName}. Comprimento estimado: ${lengthMeters} metros. Altura: ${heightMeters} metros. ${skeletonNotes || ""}`;
               speakText(textToSpeak);
               playSound("click");
             }}
-            className="p-1.5 text-slate-300 hover:text-amber-400 hover:bg-slate-800 rounded-lg transition"
+            className="p-1.5 text-purple-200 hover:text-white hover:bg-[#280540] rounded-lg transition"
             title="Ouvir descrição anatômica por voz (Acessibilidade)"
             aria-label="Ouvir descrição anatômica"
           >
-            <Volume2 className="w-4 h-4" />
+            <Volume2 className="w-4 h-4 text-[#f43f9e]" />
           </button>
 
-          {/* Fullscreen */}
           <button
             onClick={() => {
               setIsFullscreen(!isFullscreen);
               playSound("click");
             }}
-            className="p-1.5 text-slate-300 hover:text-amber-400 hover:bg-slate-800 rounded-lg transition"
+            className="p-1.5 text-purple-200 hover:text-white hover:bg-[#280540] rounded-lg transition"
             title="Alternar Tela Cheia"
           >
             <Maximize2 className="w-4 h-4" />
@@ -890,14 +817,14 @@ export default function Dinosaur3DViewer({
 
       {/* Controles Flutuantes Inferiores */}
       <div className="absolute bottom-4 left-4 flex items-center gap-2 pointer-events-auto">
-        <div className="flex items-center gap-1 bg-slate-900/90 backdrop-blur-md p-1.5 rounded-xl border border-slate-700/60 shadow-lg text-xs text-slate-300">
+        <div className="flex items-center gap-1 bg-[#17032a]/90 backdrop-blur-md p-1.5 rounded-xl border border-[#59107b]/60 shadow-lg text-xs text-purple-200">
           <button
             onClick={() => {
               setAutoRotate(!autoRotate);
               playSound("click");
             }}
             className={`px-2 py-1 rounded-lg font-medium transition flex items-center gap-1 ${
-              autoRotate ? "bg-amber-600/80 text-white" : "hover:bg-slate-800 text-slate-400"
+              autoRotate ? "bg-[#be007a] text-white" : "hover:bg-[#280540] text-purple-300"
             }`}
           >
             <Compass className="w-3.5 h-3.5" />
@@ -906,7 +833,7 @@ export default function Dinosaur3DViewer({
 
           <button
             onClick={resetCamera}
-            className="px-2 py-1 hover:bg-slate-800 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-1"
+            className="px-2 py-1 hover:bg-[#280540] rounded-lg text-purple-200 hover:text-white transition flex items-center gap-1"
             title="Restaurar visualização original da câmera"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -919,7 +846,7 @@ export default function Dinosaur3DViewer({
               playSound("click");
             }}
             className={`px-2 py-1 rounded-lg transition flex items-center gap-1 ${
-              wireframe ? "bg-sky-600 text-white" : "hover:bg-slate-800 text-slate-300"
+              wireframe ? "bg-[#be007a] text-white" : "hover:bg-[#280540] text-purple-200"
             }`}
             title="Alternar malha poligonal 3D"
           >
@@ -927,7 +854,6 @@ export default function Dinosaur3DViewer({
             <span className="hidden sm:inline">Wireframe</span>
           </button>
 
-          {/* Modos de Iluminação */}
           <button
             onClick={() => {
               const nextMode =
@@ -939,7 +865,7 @@ export default function Dinosaur3DViewer({
               setLightingMode(nextMode);
               playSound("click");
             }}
-            className="px-2 py-1 hover:bg-slate-800 rounded-lg text-amber-400 transition flex items-center gap-1"
+            className="px-2 py-1 hover:bg-[#280540] rounded-lg text-[#f43f9e] transition flex items-center gap-1"
             title="Alternar iluminação (Museu / Sol / Pôr do Sol)"
           >
             <Sun className="w-3.5 h-3.5" />
@@ -948,35 +874,33 @@ export default function Dinosaur3DViewer({
         </div>
       </div>
 
-      {/* Dimensões em Escala Métrica no Canto */}
-      <div className="absolute bottom-4 right-4 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-700/60 shadow-lg text-xs font-mono text-slate-300">
-        <span className="text-amber-400 font-semibold">{lengthMeters}m</span> comp. ×{" "}
-        <span className="text-amber-400 font-semibold">{heightMeters}m</span> alt.
+      <div className="absolute bottom-4 right-4 bg-[#17032a]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#59107b]/60 shadow-lg text-xs font-mono text-purple-200">
+        <span className="text-[#f43f9e] font-semibold">{lengthMeters}m</span> comp. ×{" "}
+        <span className="text-[#f43f9e] font-semibold">{heightMeters}m</span> alt.
       </div>
 
-      {/* Modal / Card de Hotspot Anatômico Selecionado */}
       {activeHotspot && (
-        <div className="absolute top-20 right-4 max-w-sm w-full bg-slate-900/95 backdrop-blur-xl border border-amber-500/50 p-4 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-right-4 duration-200">
+        <div className="absolute top-20 right-4 max-w-sm w-full bg-[#18032b]/95 backdrop-blur-xl border border-[#be007a]/70 p-4 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-right-4 duration-200">
           <div className="flex items-start justify-between gap-2 mb-2">
-            <div className="flex items-center gap-1.5 text-amber-400 font-bold text-sm">
-              <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0" />
+            <div className="flex items-center gap-1.5 text-white font-bold text-sm">
+              <CheckCircle2 className="w-4 h-4 text-[#be007a] shrink-0" />
               <span>{activeHotspot.title}</span>
             </div>
             <button
               onClick={() => setActiveHotspot(null)}
-              className="text-slate-400 hover:text-white text-xs px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700"
+              className="text-purple-300 hover:text-white text-xs px-2 py-0.5 rounded bg-[#280540] hover:bg-[#3c0760]"
             >
               Fechar
             </button>
           </div>
-          <p className="text-slate-300 text-xs leading-relaxed mb-2.5">
+          <p className="text-purple-200 text-xs leading-relaxed mb-2.5">
             {activeHotspot.description}
           </p>
-          <div className="bg-amber-950/40 border border-amber-900/40 p-2.5 rounded-xl">
-            <span className="text-[11px] font-semibold text-amber-400 block mb-0.5">
+          <div className="bg-[#24033c] border border-[#59107b] p-2.5 rounded-xl">
+            <span className="text-[11px] font-semibold text-[#f43f9e] block mb-0.5">
               Significância Evolutiva & Biológica:
             </span>
-            <p className="text-slate-300 text-[11px] leading-snug">
+            <p className="text-purple-200 text-[11px] leading-snug">
               {activeHotspot.clinicalSignificance}
             </p>
           </div>

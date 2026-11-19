@@ -120,62 +120,59 @@ function CatalogoContent() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
       {/* Header do Catálogo */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#3c0554] pb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <h1 className="text-3xl font-black text-white">Catálogo Científico Dinâmico</h1>
-            <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs px-2.5 py-0.5 rounded-full font-bold">
+            <span className="bg-[#be007a]/20 text-[#f43f9e] border border-[#be007a]/40 text-xs px-2.5 py-0.5 rounded-full font-bold">
               {filteredSpecies.length} {filteredSpecies.length === 1 ? "táxon" : "táxons"}
             </span>
           </div>
-          <p className="text-sm text-slate-400">
-            Fichas taxonômicas com triplas de linguagem adaptativas (ADR-002) e modelos 3D interativos.
+          <p className="text-sm text-purple-300">
+            Fichas taxonômicas com triplas de linguagem adaptativas (ADR-002) e laboratório 3D CEUB.
           </p>
         </div>
 
         {/* Nível Ativo Indicador */}
-        <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl text-xs">
-          <span className="text-slate-400">Modo de Leitura:</span>
-          <span className="text-amber-400 font-bold uppercase">
+        <div className="flex items-center gap-2 bg-[#17032a] border border-[#4a0a6a] px-3 py-1.5 rounded-xl text-xs">
+          <span className="text-purple-300">Modo de Leitura:</span>
+          <span className="text-[#f43f9e] font-bold uppercase">
             {ageLevel === "infantil" ? "🧒 Infantil" : ageLevel === "escolar" ? "🎒 Escolar" : "🔬 Acadêmico"}
           </span>
         </div>
       </div>
 
-      {/* Barra de Filtros e Busca Multivariada */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
-        {/* Busca por texto */}
+      {/* Barra de Filtros */}
+      <div className="bg-[#17032a]/90 border border-[#3c0554] rounded-2xl p-5 space-y-4 shadow-xl">
         <div className="relative">
-          <Search className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-purple-400" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Buscar por nome científico, clado, descobridor, formação rochosa..."
-            className="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500"
+            className="w-full bg-[#0c0116] border border-[#4a0a6a] rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 placeholder-purple-400/50 focus:outline-none focus:border-[#be007a]"
           />
           {searchTerm && (
             <button
               onClick={() => setSearchTerm("")}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-purple-300 hover:text-white"
             >
               Limpar
             </button>
           )}
         </div>
 
-        {/* Linha de Seletores */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
-          {/* Era / Período */}
           <div>
-            <label className="text-slate-400 font-semibold block mb-1">Período:</label>
+            <label className="text-purple-300 font-semibold block mb-1">Período:</label>
             <select
               value={selectedEra}
               onChange={(e) => {
                 setSelectedEra(e.target.value);
                 playSound("click");
               }}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#0c0116] border border-[#4a0a6a] rounded-lg p-2 text-purple-200 focus:outline-none focus:border-[#be007a]"
             >
               <option value="all">Todos os Períodos</option>
               <option value="Triássico">Triássico (252-201 Ma)</option>
@@ -184,16 +181,15 @@ function CatalogoContent() {
             </select>
           </div>
 
-          {/* Dieta */}
           <div>
-            <label className="text-slate-400 font-semibold block mb-1">Dieta:</label>
+            <label className="text-purple-300 font-semibold block mb-1">Dieta:</label>
             <select
               value={selectedDiet}
               onChange={(e) => {
                 setSelectedDiet(e.target.value);
                 playSound("click");
               }}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#0c0116] border border-[#4a0a6a] rounded-lg p-2 text-purple-200 focus:outline-none focus:border-[#be007a]"
             >
               <option value="all">Todas as Dietas</option>
               <option value="Carnívoro">Carnívoro</option>
@@ -202,16 +198,15 @@ function CatalogoContent() {
             </select>
           </div>
 
-          {/* Clado */}
           <div>
-            <label className="text-slate-400 font-semibold block mb-1">Clado:</label>
+            <label className="text-purple-300 font-semibold block mb-1">Clado:</label>
             <select
               value={selectedClade}
               onChange={(e) => {
                 setSelectedClade(e.target.value);
                 playSound("click");
               }}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#0c0116] border border-[#4a0a6a] rounded-lg p-2 text-purple-200 focus:outline-none focus:border-[#be007a]"
             >
               <option value="all">Todos os Clados</option>
               <option value="Theropoda">Theropoda</option>
@@ -221,16 +216,15 @@ function CatalogoContent() {
             </select>
           </div>
 
-          {/* Ordenação */}
           <div>
-            <label className="text-slate-400 font-semibold block mb-1">Ordenar por:</label>
+            <label className="text-purple-300 font-semibold block mb-1">Ordenar por:</label>
             <select
               value={sortBy}
               onChange={(e) => {
                 setSortBy(e.target.value as any);
                 playSound("click");
               }}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#0c0116] border border-[#4a0a6a] rounded-lg p-2 text-purple-200 focus:outline-none focus:border-[#be007a]"
             >
               <option value="name">Nome (A - Z)</option>
               <option value="length">Comprimento (Maior)</option>
@@ -238,7 +232,6 @@ function CatalogoContent() {
             </select>
           </div>
 
-          {/* Botão Especial: Brasil */}
           <div className="flex items-end">
             <button
               onClick={() => {
@@ -247,8 +240,8 @@ function CatalogoContent() {
               }}
               className={`w-full py-2 px-3 rounded-lg border font-semibold transition flex items-center justify-center gap-1.5 ${
                 brazilOnly
-                  ? "bg-emerald-600 text-white border-emerald-500 shadow-md shadow-emerald-950"
-                  : "bg-slate-950 text-slate-300 border-slate-700 hover:bg-slate-800"
+                  ? "bg-[#be007a] text-white border-[#f43f9e] shadow-md shadow-[#be007a]/30"
+                  : "bg-[#0c0116] text-purple-200 border-[#4a0a6a] hover:bg-[#280540]"
               }`}
             >
               <span>🇧🇷</span>
@@ -256,11 +249,10 @@ function CatalogoContent() {
             </button>
           </div>
 
-          {/* Resetar Filtros */}
           <div className="flex items-end">
             <button
               onClick={resetFilters}
-              className="w-full py-2 px-3 rounded-lg border border-slate-700 bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5"
+              className="w-full py-2 px-3 rounded-lg border border-[#4a0a6a] bg-[#0c0116] hover:bg-[#280540] text-purple-300 hover:text-white transition flex items-center justify-center gap-1.5"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Limpar Filtros</span>
@@ -269,23 +261,23 @@ function CatalogoContent() {
         </div>
       </div>
 
-      {/* Grade de Cards das Espécies */}
+      {/* Grade de Cards */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-72 bg-slate-900 rounded-2xl animate-pulse border border-slate-800" />
+            <div key={i} className="h-72 bg-[#17032a] rounded-2xl animate-pulse border border-[#3c0554]" />
           ))}
         </div>
       ) : filteredSpecies.length === 0 ? (
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-12 text-center space-y-3">
+        <div className="bg-[#17032a]/60 border border-[#3c0554] rounded-2xl p-12 text-center space-y-3">
           <span className="text-4xl block">🔍</span>
           <h3 className="text-lg font-bold text-white">Nenhuma espécie encontrada</h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto">
+          <p className="text-xs text-purple-300 max-w-sm mx-auto">
             Tente remover alguns filtros ou buscar por termos mais amplos (ex: &quot;Theropoda&quot;, &quot;Brasil&quot;, &quot;Cretáceo&quot;).
           </p>
           <button
             onClick={resetFilters}
-            className="text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-4 py-2 rounded-xl transition"
+            className="text-xs bg-[#be007a] hover:bg-[#d8008b] text-white font-medium px-4 py-2 rounded-xl transition"
           >
             Restaurar Catálogo Completo
           </button>
@@ -295,16 +287,15 @@ function CatalogoContent() {
           {filteredSpecies.map((species) => (
             <div
               key={species.id}
-              className="bg-slate-900/85 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-amber-950/20 group"
+              className="bg-[#17032a]/85 hover:bg-[#1f0535] border border-[#3c0554] hover:border-[#be007a]/60 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-[#be007a]/20 group"
             >
               <div className="space-y-3">
-                {/* Cabeçalho do Card */}
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
+                    <h3 className="text-lg font-bold text-white group-hover:text-fuchsia-300 transition-colors">
                       {species.name}
                     </h3>
-                    <p className="text-[11px] text-slate-400 italic font-serif">
+                    <p className="text-[11px] text-purple-300/80 italic font-serif">
                       &quot;{species.meaning}&quot;
                     </p>
                   </div>
@@ -316,41 +307,37 @@ function CatalogoContent() {
                   )}
                 </div>
 
-                {/* Badges de Taxonomia & Época */}
                 <div className="flex flex-wrap gap-1.5 text-[11px]">
-                  <span className="bg-amber-950/60 text-amber-300 border border-amber-900/50 px-2 py-0.5 rounded-md font-semibold">
+                  <span className="bg-[#be007a]/20 text-[#f43f9e] border border-[#be007a]/40 px-2 py-0.5 rounded-md font-semibold">
                     {species.periodEra}
                   </span>
-                  <span className="bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md">
+                  <span className="bg-[#280540] text-purple-200 px-2 py-0.5 rounded-md">
                     {species.clade}
                   </span>
-                  <span className="bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md">
+                  <span className="bg-[#280540] text-purple-200 px-2 py-0.5 rounded-md">
                     {species.diet}
                   </span>
                 </div>
 
-                {/* Descrição Dinâmica Adaptada à Faixa Etária (ADR-002) */}
-                <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3">
-                  <span className="text-[10px] text-amber-500 uppercase tracking-wider font-bold block mb-1">
+                <div className="bg-[#0c0116]/80 border border-[#3c0554] rounded-xl p-3">
+                  <span className="text-[10px] text-[#f43f9e] uppercase tracking-wider font-bold block mb-1">
                     Explicação ({ageLevel}):
                   </span>
-                  <p className="text-xs text-slate-300 leading-relaxed line-clamp-4">
+                  <p className="text-xs text-purple-100 leading-relaxed line-clamp-4">
                     {getAgeDescription(species)}
                   </p>
                 </div>
 
-                {/* Localização do Fóssil */}
-                <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                  <MapPin className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                <div className="flex items-center gap-1.5 text-xs text-purple-300">
+                  <MapPin className="w-3.5 h-3.5 text-[#be007a] shrink-0" />
                   <span className="truncate">{species.fossilLocations}</span>
                 </div>
               </div>
 
-              {/* Rodapé com Métricas e Botão de Ação 3D */}
-              <div className="pt-4 mt-4 border-t border-slate-800 flex items-center justify-between">
-                <div className="text-[11px] font-mono text-slate-400">
-                  <span className="text-slate-200 font-bold">{species.length}m</span> comp •{" "}
-                  <span className="text-slate-200 font-bold">
+              <div className="pt-4 mt-4 border-t border-[#3c0554] flex items-center justify-between">
+                <div className="text-[11px] font-mono text-purple-300">
+                  <span className="text-white font-bold">{species.length}m</span> comp •{" "}
+                  <span className="text-white font-bold">
                     {(species.weight / 1000).toFixed(1)}t
                   </span>
                 </div>
@@ -358,7 +345,7 @@ function CatalogoContent() {
                 <Link
                   href={`/especie/${species.id}`}
                   onClick={() => playSound("click")}
-                  className="bg-amber-600 hover:bg-amber-500 text-white font-medium px-3.5 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow"
+                  className="bg-[#be007a] hover:bg-[#d8008b] text-white font-medium px-3.5 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow shadow-[#be007a]/25"
                 >
                   <Box className="w-3.5 h-3.5" />
                   <span>Ver em 3D</span>
@@ -377,8 +364,8 @@ export default function CatalogoPage() {
     <Suspense
       fallback={
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-          <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400 text-sm">Carregando catálogo paleontológico...</p>
+          <div className="w-12 h-12 border-4 border-[#be007a] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-purple-300 text-sm">Carregando catálogo paleontológico...</p>
         </div>
       }
     >

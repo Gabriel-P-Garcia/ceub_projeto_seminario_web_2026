@@ -7,30 +7,22 @@ import {
   Globe2,
   TreePine,
   Flame,
-  CloudRain,
   AlertTriangle,
   RotateCcw,
-  Sparkles,
-  Info,
-  Layers,
   Thermometer,
-  Wind,
 } from "lucide-react";
 
 export default function PaleoecologiaPage() {
   const { ageLevel } = useAppStore();
 
-  // Sub-módulo 1: Deriva Continental
   const [selectedEra, setSelectedEra] = useState<"triassico" | "jurassico" | "cretaceo">("cretaceo");
 
-  // Sub-módulo 2: Simulador de Ecossistema Trófico
-  const [vegetation, setVegetation] = useState(80); // 0-100%
-  const [oxygenLevel, setOxygenLevel] = useState(30); // 15% a 35% (Triássico-Cretáceo)
-  const [temperature, setTemperature] = useState(26); // °C média mesozoica
-  const [volcanism, setVolcanism] = useState(20); // 0-100%
+  const [vegetation, setVegetation] = useState(80);
+  const [oxygenLevel, setOxygenLevel] = useState(30);
+  const [temperature, setTemperature] = useState(26);
+  const [volcanism, setVolcanism] = useState(20);
   const [asteroidTriggered, setAsteroidTriggered] = useState(false);
 
-  // Dinâmica trófica calculada
   const herbivoreCapacity = Math.max(
     0,
     Math.round((vegetation * 1.2 * (oxygenLevel / 25) - volcanism * 0.4) * (asteroidTriggered ? 0.05 : 1))
@@ -65,31 +57,30 @@ export default function PaleoecologiaPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
-      {/* Cabeçalho do Módulo */}
-      <div className="border-b border-slate-800 pb-6">
+      {/* Cabeçalho */}
+      <div className="border-b border-[#3c0554] pb-6">
         <div className="flex items-center gap-2 mb-1">
-          <Globe2 className="w-8 h-8 text-amber-500" />
+          <Globe2 className="w-8 h-8 text-[#be007a]" />
           <h1 className="text-3xl font-black text-white">Módulo Paleoecológico</h1>
         </div>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-purple-300">
           Mapas interativos da Deriva Continental e simulação ecossistêmica das cadeias alimentares da Era Mesozoica.
         </p>
       </div>
 
-      {/* SEÇÃO 1: DERIVA CONTINENTAL INTERATIVA */}
-      <section className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+      {/* SEÇÃO 1: DERIVA CONTINENTAL */}
+      <section className="bg-[#17032a]/90 border border-[#3c0554] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-amber-500">🌍</span> Deriva Continental & Paleobiogeografia
+              <span className="text-[#be007a]">🌍</span> Deriva Continental & Paleobiogeografia
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-purple-300">
               Observe a separação das placas tectônicas e como os fósseis se distribuíram entre continentes.
             </p>
           </div>
 
-          {/* Seletor de Época */}
-          <div className="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 self-start">
+          <div className="flex items-center gap-1.5 bg-[#0c0116] p-1.5 rounded-2xl border border-[#4a0a6a] self-start">
             <button
               onClick={() => {
                 setSelectedEra("triassico");
@@ -97,8 +88,8 @@ export default function PaleoecologiaPage() {
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
                 selectedEra === "triassico"
-                  ? "bg-amber-600 text-white shadow"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-[#be007a] text-white shadow"
+                  : "text-purple-300 hover:text-white"
               }`}
             >
               Triássico (252 Ma)
@@ -110,8 +101,8 @@ export default function PaleoecologiaPage() {
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
                 selectedEra === "jurassico"
-                  ? "bg-amber-600 text-white shadow"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-[#be007a] text-white shadow"
+                  : "text-purple-300 hover:text-white"
               }`}
             >
               Jurássico (170 Ma)
@@ -123,8 +114,8 @@ export default function PaleoecologiaPage() {
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
                 selectedEra === "cretaceo"
-                  ? "bg-amber-600 text-white shadow"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-[#be007a] text-white shadow"
+                  : "text-purple-300 hover:text-white"
               }`}
             >
               Cretáceo (90 Ma)
@@ -132,12 +123,10 @@ export default function PaleoecologiaPage() {
           </div>
         </div>
 
-        {/* Mapa Interativo e Visualização Paleogeográfica */}
-        <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-sky-950 via-slate-950 to-slate-950 border border-slate-800 p-6 min-h-[340px] flex flex-col justify-between">
-          {/* Informações da Era Selecionada */}
+        <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#1b0333] via-[#0d0118] to-[#0d0118] border border-[#3c0554] p-6 min-h-[340px] flex flex-col justify-between">
           <div className="flex flex-wrap items-center justify-between gap-4 z-10">
             <div>
-              <span className="text-xs text-amber-400 font-bold uppercase tracking-wider">
+              <span className="text-xs text-[#f43f9e] font-bold uppercase tracking-wider">
                 Configuração Tectônica:
               </span>
               <h3 className="text-2xl font-black text-white">
@@ -147,44 +136,38 @@ export default function PaleoecologiaPage() {
               </h3>
             </div>
 
-            <div className="bg-slate-900/90 border border-slate-700 px-3 py-1.5 rounded-xl text-xs font-mono text-amber-300">
+            <div className="bg-[#17032a]/95 border border-[#59107b] px-3 py-1.5 rounded-xl text-xs font-mono text-fuchsia-300">
               {selectedEra === "triassico" && "Tempo: ~235 Milhões de anos atrás"}
               {selectedEra === "jurassico" && "Tempo: ~165 Milhões de anos atrás"}
               {selectedEra === "cretaceo" && "Tempo: ~95 Milhões de anos atrás"}
             </div>
           </div>
 
-          {/* Representação Gráfica / Mapa Visual SVG */}
           <div className="py-6 flex items-center justify-center relative">
             <svg viewBox="0 0 800 320" className="w-full max-w-3xl h-auto drop-shadow-2xl">
-              {/* Oceano de Fundo */}
-              <rect width="800" height="320" rx="16" fill="#082f49" fillOpacity="0.4" />
+              <rect width="800" height="320" rx="16" fill="#120224" fillOpacity="0.8" />
 
               {selectedEra === "triassico" && (
                 <g>
-                  {/* Massa unificada Pangeia em forma de C com mar de Tethys */}
                   <path
                     d="M 280 80 Q 420 70 540 100 Q 560 160 520 220 Q 450 260 320 250 Q 250 200 240 150 Q 260 100 280 80 Z"
-                    fill="#ca8a04"
-                    stroke="#eab308"
-                    strokeWidth="2"
-                    fillOpacity="0.8"
+                    fill="#3c0554"
+                    stroke="#be007a"
+                    strokeWidth="2.5"
                   />
-                  {/* Golfo de Tethys */}
-                  <path d="M 400 130 Q 480 150 430 180 Z" fill="#082f49" />
+                  <path d="M 400 130 Q 480 150 430 180 Z" fill="#120224" />
                   <text x="360" y="160" fill="#ffffff" fontSize="13" fontWeight="bold">
                     PANGEIA
                   </text>
-                  <text x="550" y="160" fill="#7dd3fc" fontSize="11" fontStyle="italic">
+                  <text x="550" y="160" fill="#f43f9e" fontSize="11" fontStyle="italic">
                     Mar de Tethys
                   </text>
-                  <text x="140" y="160" fill="#38bdf8" fontSize="11" fontStyle="italic">
+                  <text x="140" y="160" fill="#c084fc" fontSize="11" fontStyle="italic">
                     Oceano Pantalassa
                   </text>
 
-                  {/* Marcador Fóssil: Santa Maria (Brasil) */}
-                  <circle cx="340" cy="210" r="7" fill="#22c55e" stroke="#ffffff" strokeWidth="2" />
-                  <text x="355" y="215" fill="#86efac" fontSize="11" fontWeight="bold">
+                  <circle cx="340" cy="210" r="7" fill="#be007a" stroke="#ffffff" strokeWidth="2" />
+                  <text x="355" y="215" fill="#f43f9e" fontSize="11" fontWeight="bold">
                     📍 Santa Maria (Buriolestes)
                   </text>
                 </g>
@@ -192,38 +175,32 @@ export default function PaleoecologiaPage() {
 
               {selectedEra === "jurassico" && (
                 <g>
-                  {/* Laurásia */}
                   <path
                     d="M 220 70 Q 360 60 500 80 Q 520 130 460 140 Q 340 130 230 120 Z"
-                    fill="#15803d"
-                    stroke="#22c55e"
+                    fill="#4a0e4e"
+                    stroke="#be007a"
                     strokeWidth="2"
-                    fillOpacity="0.8"
                   />
                   <text x="330" y="105" fill="#ffffff" fontSize="13" fontWeight="bold">
                     LAURÁSIA
                   </text>
 
-                  {/* Fenda Oceânica Central */}
-                  <text x="320" y="155" fill="#38bdf8" fontSize="10" fontStyle="italic">
+                  <text x="320" y="155" fill="#f43f9e" fontSize="10" fontStyle="italic">
                     Rifte Oceânico Central
                   </text>
 
-                  {/* Gondwana */}
                   <path
                     d="M 270 170 Q 440 160 520 190 Q 500 270 380 270 Q 280 250 250 200 Z"
-                    fill="#b45309"
-                    stroke="#f59e0b"
+                    fill="#3b0754"
+                    stroke="#c026d3"
                     strokeWidth="2"
-                    fillOpacity="0.8"
                   />
                   <text x="360" y="220" fill="#ffffff" fontSize="13" fontWeight="bold">
                     GONDWANA
                   </text>
 
-                  {/* Marcadores */}
-                  <circle cx="280" cy="95" r="7" fill="#eab308" stroke="#ffffff" strokeWidth="2" />
-                  <text x="210" y="85" fill="#fef08a" fontSize="10">
+                  <circle cx="280" cy="95" r="7" fill="#be007a" stroke="#ffffff" strokeWidth="2" />
+                  <text x="210" y="85" fill="#f43f9e" fontSize="10">
                     📍 Formação Morrison (Brachiosaurus)
                   </text>
                 </g>
@@ -231,63 +208,53 @@ export default function PaleoecologiaPage() {
 
               {selectedEra === "cretaceo" && (
                 <g>
-                  {/* América do Norte */}
                   <path
                     d="M 180 80 Q 260 70 300 110 Q 280 150 210 140 Z"
-                    fill="#047857"
-                    stroke="#10b981"
+                    fill="#3b0764"
+                    stroke="#be007a"
                     strokeWidth="2"
-                    fillOpacity="0.8"
                   />
                   <text x="210" y="110" fill="#ffffff" fontSize="11" fontWeight="bold">
                     América do Norte
                   </text>
 
-                  {/* Eurásia */}
                   <path
                     d="M 400 80 Q 550 70 600 120 Q 520 150 420 130 Z"
-                    fill="#047857"
-                    stroke="#10b981"
+                    fill="#3b0764"
+                    stroke="#be007a"
                     strokeWidth="2"
-                    fillOpacity="0.8"
                   />
                   <text x="470" y="110" fill="#ffffff" fontSize="11" fontWeight="bold">
                     Eurásia
                   </text>
 
-                  {/* América do Sul */}
                   <path
                     d="M 280 170 Q 340 180 330 250 Q 270 260 260 200 Z"
-                    fill="#15803d"
-                    stroke="#22c55e"
+                    fill="#4a0e4e"
+                    stroke="#d946ef"
                     strokeWidth="2"
-                    fillOpacity="0.8"
                   />
                   <text x="275" y="220" fill="#ffffff" fontSize="11" fontWeight="bold">
                     América do Sul
                   </text>
 
-                  {/* África */}
                   <path
                     d="M 400 170 Q 480 180 470 260 Q 390 260 380 200 Z"
-                    fill="#b45309"
-                    stroke="#f59e0b"
+                    fill="#3c0554"
+                    stroke="#be007a"
                     strokeWidth="2"
-                    fillOpacity="0.8"
                   />
                   <text x="420" y="220" fill="#ffffff" fontSize="11" fontWeight="bold">
                     África
                   </text>
 
-                  {/* Marcador Brasil Fósseis no Cretáceo */}
-                  <circle cx="315" cy="195" r="7" fill="#e11d48" stroke="#ffffff" strokeWidth="2" />
-                  <text x="140" y="195" fill="#fda4af" fontSize="10" fontWeight="bold">
+                  <circle cx="315" cy="195" r="7" fill="#be007a" stroke="#ffffff" strokeWidth="2" />
+                  <text x="140" y="195" fill="#f43f9e" fontSize="10" fontWeight="bold">
                     📍 Araripe & Cajual (Oxalaia / Irritator)
                   </text>
 
-                  {/* Marcador Hell Creek */}
-                  <circle cx="230" cy="95" r="7" fill="#eab308" stroke="#ffffff" strokeWidth="2" />
-                  <text x="110" y="90" fill="#fef08a" fontSize="10">
+                  <circle cx="230" cy="95" r="7" fill="#f43f9e" stroke="#ffffff" strokeWidth="2" />
+                  <text x="110" y="90" fill="#f5d0fe" fontSize="10">
                     📍 Hell Creek (T-Rex)
                   </text>
                 </g>
@@ -295,8 +262,7 @@ export default function PaleoecologiaPage() {
             </svg>
           </div>
 
-          {/* Explicação Didática da Época */}
-          <div className="bg-slate-900/90 border border-slate-800 p-4 rounded-xl text-xs text-slate-300 leading-relaxed">
+          <div className="bg-[#17032a]/95 border border-[#3c0554] p-4 rounded-xl text-xs text-purple-200 leading-relaxed">
             {selectedEra === "triassico" && (
               <p>
                 <strong>No Triássico:</strong> Todos os continentes estavam unidos no supercontinente <em>Pangeia</em>, cercado pelo oceano Pantalassa. O interior era árido e seco. No sul do que hoje é o Brasil (Rio Grande do Sul), os primeiros dinossauros pequenos e ágeis surgiram e começaram a povoar o planeta.
@@ -316,15 +282,15 @@ export default function PaleoecologiaPage() {
         </div>
       </section>
 
-      {/* SEÇÃO 2: SIMULADOR DE ECOSSISTEMA & TEIA ALIMENTAR */}
-      <section className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
+      {/* SEÇÃO 2: SIMULADOR DE ECOSSISTEMA */}
+      <section className="bg-[#17032a]/90 border border-[#3c0554] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <TreePine className="w-5 h-5 text-emerald-400" />
               Simulador Trófico Mesozoico
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-purple-300">
               Ajuste as variáveis ambientais e observe o equilíbrio dinâmico entre produtores, herbívoros e predadores de topo.
             </p>
           </div>
@@ -333,7 +299,7 @@ export default function PaleoecologiaPage() {
             <button
               onClick={triggerAsteroidImpact}
               disabled={asteroidTriggered}
-              className="bg-red-600 hover:bg-red-500 disabled:opacity-40 text-white font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-red-950"
+              className="bg-[#be007a] hover:bg-[#d8008b] disabled:opacity-40 text-white font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-[#be007a]/30"
             >
               <Flame className="w-4 h-4 animate-bounce" />
               <span>💥 Asteroide K-Pg (66 Ma)</span>
@@ -341,7 +307,7 @@ export default function PaleoecologiaPage() {
 
             <button
               onClick={resetSimulation}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-xl transition flex items-center gap-1"
+              className="bg-[#280540] hover:bg-[#3c0760] text-purple-200 text-xs px-3 py-2 rounded-xl transition flex items-center gap-1"
               title="Resetar Simulação"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -350,7 +316,6 @@ export default function PaleoecologiaPage() {
           </div>
         </div>
 
-        {/* Alerta de Impacto Cataclísmico se acionado */}
         {asteroidTriggered && (
           <div className="bg-red-950/70 border border-red-700/80 p-4 rounded-2xl flex items-start gap-3 animate-pulse">
             <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
@@ -366,16 +331,14 @@ export default function PaleoecologiaPage() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Controles Ambientais */}
-          <div className="lg:col-span-5 bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-4">
+          <div className="lg:col-span-5 bg-[#0c0116] border border-[#3c0554] p-5 rounded-2xl space-y-4">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <Thermometer className="w-4 h-4 text-amber-500" /> Parâmetros Paleoclimáticos
+              <Thermometer className="w-4 h-4 text-[#be007a]" /> Parâmetros Paleoclimáticos
             </h3>
 
-            {/* Slider Vegetação */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-400">Biomassa Vegetal (Produtores):</span>
+                <span className="text-purple-300">Biomassa Vegetal (Produtores):</span>
                 <span className="text-emerald-400 font-bold">{vegetation}%</span>
               </div>
               <input
@@ -384,15 +347,14 @@ export default function PaleoecologiaPage() {
                 max="100"
                 value={vegetation}
                 onChange={(e) => setVegetation(Number(e.target.value))}
-                className="w-full accent-emerald-500 cursor-pointer"
+                className="w-full accent-[#be007a] cursor-pointer"
               />
             </div>
 
-            {/* Slider Oxigênio */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-400">Concentração de Oxigênio (O₂):</span>
-                <span className="text-sky-400 font-bold">{oxygenLevel}%</span>
+                <span className="text-purple-300">Concentração de Oxigênio (O₂):</span>
+                <span className="text-[#f43f9e] font-bold">{oxygenLevel}%</span>
               </div>
               <input
                 type="range"
@@ -400,15 +362,14 @@ export default function PaleoecologiaPage() {
                 max="35"
                 value={oxygenLevel}
                 onChange={(e) => setOxygenLevel(Number(e.target.value))}
-                className="w-full accent-sky-500 cursor-pointer"
+                className="w-full accent-[#f43f9e] cursor-pointer"
               />
             </div>
 
-            {/* Slider Temperatura */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-400">Temperatura Média Global:</span>
-                <span className="text-orange-400 font-bold">{temperature}°C</span>
+                <span className="text-purple-300">Temperatura Média Global:</span>
+                <span className="text-fuchsia-300 font-bold">{temperature}°C</span>
               </div>
               <input
                 type="range"
@@ -416,14 +377,13 @@ export default function PaleoecologiaPage() {
                 max="45"
                 value={temperature}
                 onChange={(e) => setTemperature(Number(e.target.value))}
-                className="w-full accent-orange-500 cursor-pointer"
+                className="w-full accent-fuchsia-400 cursor-pointer"
               />
             </div>
 
-            {/* Slider Vulcanismo */}
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs">
-                <span className="text-slate-400">Atividade Vulcânica (Trapps de Deccan):</span>
+                <span className="text-purple-300">Atividade Vulcânica (Trapps de Deccan):</span>
                 <span className="text-red-400 font-bold">{volcanism}%</span>
               </div>
               <input
@@ -437,72 +397,66 @@ export default function PaleoecologiaPage() {
             </div>
           </div>
 
-          {/* Painel de Níveis Tróficos & Dinâmica Populacional */}
-          <div className="lg:col-span-7 bg-slate-950 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-7 bg-[#0c0116] border border-[#3c0554] p-5 rounded-2xl flex flex-col justify-between space-y-6">
             <h3 className="text-sm font-bold text-white flex items-center justify-between">
               <span>Pirâmide Trófica & Populações Sustentadas</span>
-              <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full font-mono">
+              <span className="text-xs bg-[#be007a]/20 text-[#f43f9e] border border-[#be007a]/40 px-2 py-0.5 rounded-full font-mono">
                 Biodiversidade: {biodiversityIndex}/100
               </span>
             </h3>
 
-            {/* 3 Níveis Tróficos Visuais */}
             <div className="space-y-3">
-              {/* Nível 3: Predadores de Topo */}
-              <div className="bg-red-950/40 border border-red-900/50 p-3 rounded-xl flex items-center justify-between text-xs">
+              <div className="bg-[#24033c] border border-[#59107b] p-3 rounded-xl flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-xl">🦖</span>
                   <div>
-                    <span className="font-bold text-red-300 block">Predadores de Topo</span>
-                    <span className="text-slate-400 text-[11px]">T-Rex, Oxalaia, Spinosaurus</span>
+                    <span className="font-bold text-fuchsia-200 block">Predadores de Topo</span>
+                    <span className="text-purple-300 text-[11px]">T-Rex, Oxalaia, Spinosaurus</span>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-base font-black text-red-400 font-mono">
+                  <span className="text-base font-black text-[#f43f9e] font-mono">
                     {carnivoreCapacity}
                   </span>
-                  <span className="text-[10px] text-slate-500 block">população relativa</span>
+                  <span className="text-[10px] text-purple-400 block">população relativa</span>
                 </div>
               </div>
 
-              {/* Nível 2: Herbívoros Primários */}
-              <div className="bg-amber-950/40 border border-amber-900/50 p-3 rounded-xl flex items-center justify-between text-xs">
+              <div className="bg-[#1f0333] border border-[#4a0a6a] p-3 rounded-xl flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-xl">🦕</span>
                   <div>
-                    <span className="font-bold text-amber-300 block">Herbívoros Primários</span>
-                    <span className="text-slate-400 text-[11px]">Brachiosaurus, Triceratops, Ankylosaurus</span>
+                    <span className="font-bold text-purple-200 block">Herbívoros Primários</span>
+                    <span className="text-purple-300 text-[11px]">Brachiosaurus, Triceratops, Ankylosaurus</span>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-base font-black text-amber-400 font-mono">
+                  <span className="text-base font-black text-fuchsia-300 font-mono">
                     {herbivoreCapacity}
                   </span>
-                  <span className="text-[10px] text-slate-500 block">população relativa</span>
+                  <span className="text-[10px] text-purple-400 block">população relativa</span>
                 </div>
               </div>
 
-              {/* Nível 1: Produtores Vegetais */}
               <div className="bg-emerald-950/40 border border-emerald-900/50 p-3 rounded-xl flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-xl">🌿</span>
                   <div>
                     <span className="font-bold text-emerald-300 block">Produtores Primários</span>
-                    <span className="text-slate-400 text-[11px]">Coníferas, Samambaias, Cicadáceas</span>
+                    <span className="text-purple-300 text-[11px]">Coníferas, Samambaias, Cicadáceas</span>
                   </div>
                 </div>
                 <div className="text-right">
                   <span className="text-base font-black text-emerald-400 font-mono">
                     {vegetation}%
                   </span>
-                  <span className="text-[10px] text-slate-500 block">cobertura vegetal</span>
+                  <span className="text-[10px] text-purple-400 block">cobertura vegetal</span>
                 </div>
               </div>
             </div>
 
-            {/* Diagnóstico Paleobiológico */}
-            <div className="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs text-slate-300">
-              <span className="font-bold text-amber-400 block mb-1">Diagnóstico do Ecossistema:</span>
+            <div className="bg-[#17032a] p-3 rounded-xl border border-[#3c0554] text-xs text-purple-200">
+              <span className="font-bold text-[#f43f9e] block mb-1">Diagnóstico do Ecossistema:</span>
               {asteroidTriggered ? (
                 <p>
                   Colapso catastrófico! Sem luz solar, os produtores morreram, causando extinção dos grandes saurópodes e tiranossaurídeos por inanição.

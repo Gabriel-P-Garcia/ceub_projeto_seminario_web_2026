@@ -16,7 +16,6 @@ import {
   MapPin,
   ChevronRight,
   ShieldCheck,
-  CheckCircle2,
 } from "lucide-react";
 
 interface SpeciesData {
@@ -68,28 +67,28 @@ export default function HomePage() {
 
   return (
     <div className="w-full space-y-16 pb-16">
-      {/* Hero Section com Estética de Expedição e Paleobiologia */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-amber-900/30 pt-16 pb-20 px-4">
-        {/* Glow de Fundo */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Hero Section com Identidade Visual CEUB */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#19032d] via-[#120224] to-[#0d0118] border-b border-[#3c0554]/60 pt-16 pb-20 px-4">
+        {/* Glow de Fundo Magenta CEUB */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[360px] bg-[#be007a]/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           {/* Texto Principal */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#be007a]/20 border border-[#be007a]/40 text-fuchsia-300 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5 text-[#f43f9e]" />
               <span>Plataforma Educativa de Paleontologia • CEUB 2026</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
               Explore a Vida no Mesozoico com{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f43f9e] via-[#be007a] to-[#d946ef]">
                 Modelos 3D e Rigor Científico
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              DinoPédia integra anatomia tridimensional, taxonomia rigorosa e explicações adaptativas por inteligência artificial para todas as idades — de crianças a pesquisadores de biologia.
+            <p className="text-base sm:text-lg text-purple-200/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              DinoPédia integra anatomia tridimensional, taxonomia rigorosa e explicações adaptativas por inteligência artificial para todas as idades — no ecossistema acadêmico do CEUB.
             </p>
 
             {/* Chamada para Ação */}
@@ -97,7 +96,7 @@ export default function HomePage() {
               <Link
                 href="/catalogo"
                 onClick={() => playSound("click")}
-                className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-amber-900/40 flex items-center gap-2 transition transform hover:-translate-y-0.5"
+                className="bg-gradient-to-r from-[#be007a] to-[#7f0657] hover:from-[#d8008b] hover:to-[#be007a] text-white font-semibold px-6 py-3.5 rounded-xl shadow-lg shadow-[#be007a]/30 flex items-center gap-2 transition transform hover:-translate-y-0.5"
               >
                 <BookOpen className="w-4 h-4" />
                 <span>Explorar Catálogo Científico</span>
@@ -107,88 +106,88 @@ export default function HomePage() {
               <Link
                 href="/especie/clw123-tyrannosaurus-rex"
                 onClick={() => playSound("click")}
-                className="bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-200 font-semibold px-6 py-3.5 rounded-xl flex items-center gap-2 transition"
+                className="bg-[#18032b] hover:bg-[#280540] border border-[#59107b] text-purple-100 font-semibold px-6 py-3.5 rounded-xl flex items-center gap-2 transition"
               >
-                <Box className="w-4 h-4 text-amber-400" />
+                <Box className="w-4 h-4 text-[#f43f9e]" />
                 <span>Visualizador 3D Anatômico</span>
               </Link>
             </div>
 
-            {/* Métricas Rápidas do Sistema */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 text-left max-w-md mx-auto lg:mx-0">
+            {/* Métricas Rápidas */}
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#3c0554]/70 text-left max-w-md mx-auto lg:mx-0">
               <div>
-                <span className="text-2xl font-black text-amber-400">100%</span>
-                <p className="text-xs text-slate-400">Fósseis Validados</p>
+                <span className="text-2xl font-black text-[#f43f9e]">100%</span>
+                <p className="text-xs text-purple-300">Fósseis Validados</p>
               </div>
               <div>
-                <span className="text-2xl font-black text-sky-400">&lt;300ms</span>
-                <p className="text-xs text-slate-400">Latência de API</p>
+                <span className="text-2xl font-black text-fuchsia-300">&lt;300ms</span>
+                <p className="text-xs text-purple-300">Latência de API</p>
               </div>
               <div>
                 <span className="text-2xl font-black text-emerald-400">3 Níveis</span>
-                <p className="text-xs text-slate-400">Linguagem Adaptativa</p>
+                <p className="text-xs text-purple-300">Linguagem Adaptativa</p>
               </div>
             </div>
           </div>
 
-          {/* Destaque Visual Interativo 3D Hero */}
+          {/* Destaque Visual 3D Hero */}
           <div className="lg:col-span-5">
-            <div className="relative bg-slate-900/90 border border-amber-900/40 rounded-3xl p-6 shadow-2xl backdrop-blur-xl">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div className="relative bg-[#17032a]/90 border border-[#59107b]/70 rounded-3xl p-6 shadow-2xl backdrop-blur-xl">
+              <div className="flex items-center justify-between border-b border-[#3c0554] pb-3 mb-4">
                 <div className="flex items-center gap-2">
                   <span className="text-xl">🦴</span>
                   <div>
                     <h3 className="font-bold text-white text-sm">Espécime em Evidência</h3>
-                    <p className="text-[11px] text-amber-400">Tyrannosaurus rex (Maastrichtiano)</p>
+                    <p className="text-[11px] text-[#f43f9e]">Tyrannosaurus rex (Maastrichtiano)</p>
                   </div>
                 </div>
-                <span className="text-[11px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full border border-amber-500/30">
+                <span className="text-[11px] bg-[#be007a]/20 text-[#f43f9e] px-2 py-0.5 rounded-full border border-[#be007a]/40 font-semibold">
                   3D Interativo
                 </span>
               </div>
 
-              {/* Prévia Artística & Estrutural */}
-              <div className="relative h-64 rounded-2xl overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/40 border border-slate-800 flex flex-col items-center justify-center p-4 text-center group">
+              {/* Prévia Artística */}
+              <div className="relative h-64 rounded-2xl overflow-hidden bg-gradient-to-br from-[#0c0116] via-[#1a042e] to-[#2d0545] border border-[#4a0a6a] flex flex-col items-center justify-center p-4 text-center group">
                 <div className="text-7xl mb-2 group-hover:scale-110 transition-transform duration-300">
                   🦖
                 </div>
-                <p className="text-xs text-slate-300 font-mono">
+                <p className="text-xs text-purple-200 font-mono">
                   12.4m de comprimento • 8.4 toneladas
                 </p>
-                <p className="text-[11px] text-slate-400 mt-1 max-w-xs">
+                <p className="text-[11px] text-purple-300 mt-1 max-w-xs">
                   Crânio de 1.5m com fenestras antorbitais e músculos adutores capazes de quebrar ossos.
                 </p>
                 <Link
                   href="/especie/clw123-tyrannosaurus-rex"
-                  className="mt-3 text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-4 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow"
+                  className="mt-3 text-xs bg-[#be007a] hover:bg-[#d8008b] text-white font-semibold px-4 py-1.5 rounded-lg transition flex items-center gap-1.5 shadow shadow-[#be007a]/30"
                 >
                   <span>Abrir no Laboratório 3D</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
 
-              {/* Botões dos 3 Períodos da Era Mesozoica */}
+              {/* Botões dos 3 Períodos Mesozoicos */}
               <div className="grid grid-cols-3 gap-2 mt-4 text-center">
                 <Link
                   href="/catalogo?periodEra=Triássico"
-                  className="bg-slate-950 hover:bg-amber-950/60 border border-amber-900/40 p-2 rounded-xl transition"
+                  className="bg-[#120224] hover:bg-[#280540] border border-[#3c0554] p-2 rounded-xl transition"
                 >
-                  <span className="text-[10px] text-amber-400 font-bold block">TRIÁSSICO</span>
-                  <span className="text-[9px] text-slate-400">252 - 201 Ma</span>
+                  <span className="text-[10px] text-[#f43f9e] font-bold block">TRIÁSSICO</span>
+                  <span className="text-[9px] text-purple-300">252 - 201 Ma</span>
                 </Link>
                 <Link
                   href="/catalogo?periodEra=Jurássico"
-                  className="bg-slate-950 hover:bg-amber-950/60 border border-amber-900/40 p-2 rounded-xl transition"
+                  className="bg-[#120224] hover:bg-[#280540] border border-[#3c0554] p-2 rounded-xl transition"
                 >
-                  <span className="text-[10px] text-amber-400 font-bold block">JURÁSSICO</span>
-                  <span className="text-[9px] text-slate-400">201 - 145 Ma</span>
+                  <span className="text-[10px] text-[#f43f9e] font-bold block">JURÁSSICO</span>
+                  <span className="text-[9px] text-purple-300">201 - 145 Ma</span>
                 </Link>
                 <Link
                   href="/catalogo?periodEra=Cretáceo"
-                  className="bg-slate-950 hover:bg-amber-950/60 border border-amber-900/40 p-2 rounded-xl transition"
+                  className="bg-[#120224] hover:bg-[#280540] border border-[#3c0554] p-2 rounded-xl transition"
                 >
-                  <span className="text-[10px] text-amber-400 font-bold block">CRETÁCEO</span>
-                  <span className="text-[9px] text-slate-400">145 - 66 Ma</span>
+                  <span className="text-[10px] text-[#f43f9e] font-bold block">CRETÁCEO</span>
+                  <span className="text-[9px] text-purple-300">145 - 66 Ma</span>
                 </Link>
               </div>
             </div>
@@ -203,24 +202,24 @@ export default function HomePage() {
 
       {/* Destaque Paleontológico do Brasil */}
       <section className="max-w-7xl mx-auto px-4">
-        <div className="bg-gradient-to-r from-emerald-950/50 via-slate-900 to-emerald-950/50 border border-emerald-800/40 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#210437] via-[#150226] to-[#210437] border border-[#59107b] rounded-3xl p-6 sm:p-8 relative overflow-hidden">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold">
                 <span>🇧🇷 Fósseis no Brasil</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white">
                 O Brasil como Berço Evolutivo e Santuário de Espinossauros
               </h2>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Do Rio Grande do Sul (onde viveram os dinossauros mais antigos do planeta no Triássico) até a Bacia do Araripe no Ceará e a Ilha do Cajual no Maranhão, o território brasileiro guarda fósseis excepcionais com preservação de tecidos moles e crânios intactos.
+              <p className="text-sm text-purple-200/90 leading-relaxed">
+                Do Rio Grande do Sul (onde viveram os dinossauros mais antigos do planeta no Triássico) até a Bacia do Araripe no Ceará e a Ilha do Cajual no Maranhão, o território brasileiro guarda fósseis excepcionais estudados por paleontólogos e pesquisadores do CEUB.
               </p>
             </div>
 
             <Link
               href="/catalogo?brazilOnly=true"
               onClick={() => playSound("click")}
-              className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-5 py-3 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-950 shrink-0 text-sm"
+              className="bg-gradient-to-r from-[#be007a] to-[#7f0657] hover:from-[#d8008b] hover:to-[#be007a] text-white font-semibold px-5 py-3 rounded-xl transition flex items-center gap-2 shadow-lg shadow-[#be007a]/30 shrink-0 text-sm"
             >
               <MapPin className="w-4 h-4" />
               <span>Ver Espécies Brasileiras</span>
@@ -230,24 +229,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Grade de Espécies do Catálogo Dinâmico (Adaptativo ADR-002) */}
+      {/* Grade de Espécies */}
       <section className="max-w-7xl mx-auto px-4 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-2xl font-black text-white">Catálogo de Espécies em Evidência</h2>
-              <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full font-semibold">
+              <span className="text-xs bg-[#be007a]/20 text-[#f43f9e] border border-[#be007a]/40 px-2 py-0.5 rounded-full font-semibold">
                 Nível: {ageLevel.toUpperCase()}
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-purple-300">
               O texto abaixo muda instantaneamente com o seletor pedagógico na barra superior.
             </p>
           </div>
 
           <Link
             href="/catalogo"
-            className="text-xs text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1 self-start sm:self-auto"
+            className="text-xs text-[#f43f9e] hover:text-white font-semibold flex items-center gap-1 self-start sm:self-auto"
           >
             <span>Ver todas as espécies</span>
             <ChevronRight className="w-4 h-4" />
@@ -257,7 +256,7 @@ export default function HomePage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-64 bg-slate-900/60 rounded-2xl animate-pulse border border-slate-800" />
+              <div key={i} className="h-64 bg-[#17032a] rounded-2xl animate-pulse border border-[#3c0554]" />
             ))}
           </div>
         ) : (
@@ -265,15 +264,15 @@ export default function HomePage() {
             {featuredSpecies.map((species) => (
               <div
                 key={species.id}
-                className="bg-slate-900/80 hover:bg-slate-900 border border-amber-950/40 hover:border-amber-500/40 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:shadow-amber-950/30 group"
+                className="bg-[#17032a]/85 hover:bg-[#1f0535] border border-[#3c0554] hover:border-[#be007a]/60 rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:shadow-[#be007a]/15 group"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div>
-                      <h3 className="font-bold text-white text-base group-hover:text-amber-400 transition-colors">
+                      <h3 className="font-bold text-white text-base group-hover:text-fuchsia-300 transition-colors">
                         {species.name}
                       </h3>
-                      <span className="text-xs text-amber-400/90 font-mono">
+                      <span className="text-xs text-purple-300 font-mono">
                         {species.period} • {species.mya}
                       </span>
                     </div>
@@ -284,23 +283,21 @@ export default function HomePage() {
                     )}
                   </div>
 
-                  {/* Descrição que se adapta à idade ativa */}
-                  <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed mb-4">
+                  <p className="text-xs text-purple-100/90 line-clamp-3 leading-relaxed mb-4">
                     {getActiveDesc(species)}
                   </p>
                 </div>
 
-                {/* Métricas e Botão */}
-                <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <div className="pt-3 border-t border-[#3c0554] flex items-center justify-between text-[11px] text-purple-300 font-mono">
                   <div>
-                    <span className="text-slate-200 font-bold">{species.length}m</span> comp. •{" "}
-                    <span className="text-slate-200 font-bold">{species.diet}</span>
+                    <span className="text-white font-bold">{species.length}m</span> comp. •{" "}
+                    <span className="text-white font-bold">{species.diet}</span>
                   </div>
 
                   <Link
                     href={`/especie/${species.id}`}
                     onClick={() => playSound("click")}
-                    className="bg-slate-800 hover:bg-amber-600 text-slate-200 hover:text-white px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition flex items-center gap-1"
+                    className="bg-[#280540] hover:bg-[#be007a] text-purple-100 hover:text-white px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition flex items-center gap-1"
                   >
                     <Box className="w-3.5 h-3.5" />
                     <span>Ver em 3D</span>
@@ -312,57 +309,54 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* Módulos do Sistema de Acordo com a Arquitetura */}
+      {/* Módulos do Sistema */}
       <section className="max-w-7xl mx-auto px-4">
         <h2 className="text-2xl font-black text-white mb-6">Módulos Interativos Integrados</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Módulo 1: Deriva & Teias Alimentares */}
           <Link
             href="/paleoecologia"
             onClick={() => playSound("click")}
-            className="bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-6 rounded-2xl group transition"
+            className="bg-[#17032a] border border-[#3c0554] hover:border-[#be007a]/60 p-6 rounded-2xl group transition"
           >
-            <div className="p-3 bg-amber-500/10 rounded-xl w-fit border border-amber-500/30 text-amber-400 mb-4 group-hover:scale-110 transition-transform">
+            <div className="p-3 bg-[#be007a]/15 rounded-xl w-fit border border-[#be007a]/30 text-[#f43f9e] mb-4 group-hover:scale-110 transition-transform">
               <Globe2 className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors mb-2">
+            <h3 className="text-lg font-bold text-white group-hover:text-fuchsia-300 transition-colors mb-2">
               Módulo Paleoecológico
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-purple-300/80 leading-relaxed">
               Explore o mapa da Deriva Continental (Pangeia até a fragmentação moderna) e simule cadeias tróficas e eventos de extinção em massa.
             </p>
           </Link>
 
-          {/* Módulo 2: Quizzes & Gamificação */}
           <Link
             href="/quiz"
             onClick={() => playSound("click")}
-            className="bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-6 rounded-2xl group transition"
+            className="bg-[#17032a] border border-[#3c0554] hover:border-[#be007a]/60 p-6 rounded-2xl group transition"
           >
-            <div className="p-3 bg-orange-500/10 rounded-xl w-fit border border-orange-500/30 text-orange-400 mb-4 group-hover:scale-110 transition-transform">
+            <div className="p-3 bg-[#be007a]/15 rounded-xl w-fit border border-[#be007a]/30 text-[#f43f9e] mb-4 group-hover:scale-110 transition-transform">
               <Trophy className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors mb-2">
+            <h3 className="text-lg font-bold text-white group-hover:text-fuchsia-300 transition-colors mb-2">
               Quizzes & Gamificação
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-purple-300/80 leading-relaxed">
               Teste seus conhecimentos com 3 modos de jogo, streaks de acertos, badges colecionáveis e perguntas calibradas para o seu nível pedagógico.
             </p>
           </Link>
 
-          {/* Módulo 3: Fórum e Curadoria */}
           <Link
             href="/forum"
             onClick={() => playSound("click")}
-            className="bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-6 rounded-2xl group transition"
+            className="bg-[#17032a] border border-[#3c0554] hover:border-[#be007a]/60 p-6 rounded-2xl group transition"
           >
-            <div className="p-3 bg-sky-500/10 rounded-xl w-fit border border-sky-500/30 text-sky-400 mb-4 group-hover:scale-110 transition-transform">
+            <div className="p-3 bg-[#be007a]/15 rounded-xl w-fit border border-[#be007a]/30 text-[#f43f9e] mb-4 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors mb-2">
+            <h3 className="text-lg font-bold text-white group-hover:text-fuchsia-300 transition-colors mb-2">
               Fórum & Curadoria RBAC
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-purple-300/80 leading-relaxed">
               Comunidade científica com papéis diferenciados (Aluno, Professor, Curador, Admin) e sincronização ao vivo com a base de dados global PBDB.
             </p>
           </Link>

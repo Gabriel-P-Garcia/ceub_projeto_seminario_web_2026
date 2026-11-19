@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #090d16;
-  --foreground: #f8fafc;
+  --background: #0d0118;
+  --foreground: #fcfaff;
+  --ceub-purple-dark: #120224;
+  --ceub-purple: #3c0554;
+  --ceub-purple-light: #59107b;
+  --ceub-magenta: #be007a;
+  --ceub-magenta-hover: #d8008b;
+  --ceub-magenta-light: #f43f9e;
 }
 
 @theme inline {
@@ -17,42 +23,47 @@ body {
   overflow-x: hidden;
 }
 
+::selection {
+  background-color: #be007a;
+  color: #ffffff;
+}
+
 /* Modo de Alto Contraste (WCAG 2.1 AA) */
 .high-contrast {
   --background: #000000 !important;
-  --foreground: #fef08a !important;
+  --foreground: #fdf4ff !important;
   background-color: #000000 !important;
-  color: #fef08a !important;
+  color: #fdf4ff !important;
 }
 
 .high-contrast * {
-  border-color: #facc15 !important;
+  border-color: #f43f9e !important;
 }
 
 .high-contrast button,
 .high-contrast select,
 .high-contrast input,
 .high-contrast textarea {
-  border: 2px solid #facc15 !important;
+  border: 2px solid #f43f9e !important;
   background-color: #000000 !important;
-  color: #fef08a !important;
+  color: #fdf4ff !important;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar CEUB */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #0d0118;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #3c0554;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d97706;
+  background: #be007a;
 }

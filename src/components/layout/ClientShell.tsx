@@ -9,7 +9,6 @@ export default function ClientShell({ children }: { children: React.ReactNode })
   const { highContrast, fontSize } = useAppStore();
 
   useEffect(() => {
-    // Aplicar classes de acessibilidade no elemento html/body
     const root = document.documentElement;
     if (highContrast) {
       root.classList.add("high-contrast");
@@ -30,7 +29,9 @@ export default function ClientShell({ children }: { children: React.ReactNode })
   return (
     <div
       className={`min-h-screen flex flex-col transition-colors ${
-        highContrast ? "bg-black text-amber-300 font-semibold" : "bg-slate-950 text-slate-100"
+        highContrast
+          ? "bg-black text-fuchsia-200 font-semibold"
+          : "bg-[#0d0118] text-slate-100"
       }`}
     >
       <Navbar />
