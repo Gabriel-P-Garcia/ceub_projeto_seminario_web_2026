@@ -116,32 +116,59 @@ ceub_projeto_seminario_web_2026/
 
 ---
 
-## 5. Como Executar o Projeto Localmente
+## 5. Como Executar o Projeto Localmente (via NVM)
 
 ### Pré-requisitos
-- Node.js versão 18+ (testado em v26.13)
-- npm versão 9+
+- **NVM (Node Version Manager):** [nvm-windows](https://github.com/coreybutler/nvm-windows) instalado no sistema.
+- Versão do Node.js definida no arquivo `.nvmrc` (`26.13.1` ou superior compatível com Next.js 16).
 
-### Passos de Instalação e Execução
+---
 
-1. **Instalar as dependências:**
+### Executando com o NVM (Passo a Passo)
+
+1. **Ativar a versão correta do Node via NVM:**
+   O projeto contém o arquivo `.nvmrc` configurado para a versão `26.13.1`.
+   ```bash
+   # No Prompt de Comando (CMD) ou PowerShell:
+   nvm use 26.13.1
+   ```
+   > Caso não tenha a versão instalada ainda, execute:
+   > ```bash
+   > nvm install 26.13.1
+   > nvm use 26.13.1
+   > ```
+
+2. **Verificar a versão ativa:**
+   ```bash
+   node -v
+   # Deve retornar v26.13.1
+   npm -v
+   # Deve retornar 11.20.0
+   ```
+
+3. **Instalar as dependências (se necessário):**
    ```bash
    npm install
    ```
 
-2. **Inicializar o Banco de Dados SQLite e Executar o Povoamento (Seed):**
+4. **Sincronizar o Banco de Dados SQLite e Rodar o Seed:**
    ```bash
-   npx prisma db push
-   npx tsx prisma/seed.ts
+   npm run db:push
+   npm run db:seed
    ```
 
-3. **Iniciar o Servidor em Modo de Desenvolvimento:**
+5. **Iniciar o Servidor de Desenvolvimento:**
    ```bash
    npm run dev
    ```
-   Acesse a plataforma em `http://localhost:3000`.
+   Acesse a aplicação no navegador em: **`http://localhost:3000`**.
 
-4. **Gerar Build de Produção:**
+> **Nota sobre PowerShell no Windows:**  
+> Caso o PowerShell bloqueie a execução de scripts do `npm` (`PSSecurityException`), execute pelo **CMD** ou habilite a política no PowerShell do seu usuário:  
+> `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`  
+> Ou execute chamando explicitamente `npm.cmd run dev`.
+
+6. **Gerar Build de Produção:**
    ```bash
    npm run build
    npm run start
