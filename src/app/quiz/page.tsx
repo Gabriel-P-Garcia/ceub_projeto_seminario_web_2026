@@ -115,10 +115,10 @@ export default function QuizPage() {
   };
 
   const badgesList = [
-    { id: "primeiro_fossil", name: "Primeiro Fóssil", icon: "🦴", desc: "Respondeu à sua primeira pergunta no quiz" },
-    { id: "mestre_mesozoico", name: "Mestre do Mesozoico", icon: "⚡", desc: "Alcançou 3 acertos seguidos sem errar" },
-    { id: "guardiao_brasil", name: "Guardião Brasileiro", icon: "🇧🇷", desc: "Acertou um desafio sobre a paleontologia do Brasil" },
-    { id: "curador_supremo", name: "Curador Honorário", icon: "🎓", desc: "Atingiu mais de 300 pontos de conhecimento" },
+    { id: "primeiro_fossil", name: "Primeiro Fóssil", icon: "", desc: "Respondeu à sua primeira pergunta no quiz" },
+    { id: "mestre_mesozoico", name: "Mestre do Mesozoico", icon: "", desc: "Alcançou 3 acertos seguidos sem errar" },
+    { id: "guardiao_brasil", name: "Guardião Brasileiro", icon: "", desc: "Acertou um desafio sobre a paleontologia do Brasil" },
+    { id: "curador_supremo", name: "Curador Honorário", icon: "", desc: "Atingiu mais de 300 pontos de conhecimento" },
   ];
 
   return (
@@ -173,7 +173,7 @@ export default function QuizPage() {
                   : "bg-[#0c0116] text-purple-300 hover:text-white"
               }`}
             >
-              {lvl === "infantil" ? "🧒 Infantil" : lvl === "escolar" ? "🎒 Escolar" : "🔬 Acadêmico"}
+              {lvl === "infantil" ? "Infantil" : lvl === "escolar" ? "Escolar" : "Acadêmico"}
             </button>
           ))}
         </div>
@@ -292,7 +292,7 @@ export default function QuizPage() {
                 </h4>
                 <p className="text-[11px] text-purple-300 leading-snug">{b.desc}</p>
                 <span className="text-[10px] mt-2 inline-block font-mono font-semibold">
-                  {isUnlocked ? "✓ Desbloqueado" : "🔒 Bloqueado"}
+                  {isUnlocked ? "Desbloqueado" : "Bloqueado"}
                 </span>
               </div>
             );

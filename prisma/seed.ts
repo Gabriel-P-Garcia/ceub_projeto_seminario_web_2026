@@ -362,7 +362,7 @@ async function main() {
   console.log(`✓ ${speciesList.length} espécies inseridas com sucesso.`);
 
   // 2. Inserir Tópicos e Posts do Fórum Moderado
-  const topic1 = await prisma.forumTopic.create({
+  await prisma.forumTopic.create({
     data: {
       title: "Descoberta de novos fósseis de Espinossaurídeos no Nordeste do Brasil",
       content: "Recentemente foram catalogados novos dentes e fragmentos vertebrais na Formação Romualdo (Bacia do Araripe). O que esses achados indicam sobre a diversidade de predadores semiaquáticos no Cretáceo brasileiro?",
@@ -400,7 +400,7 @@ async function main() {
     }
   });
 
-  const topic2 = await prisma.forumTopic.create({
+  await prisma.forumTopic.create({
     data: {
       title: "Como usar o modelo 3D do Tyrannosaurus rex em sala de aula de Biologia?",
       content: "Gostaria de sugestões pedagógicas para trabalhar biomecânica e evolução com a turma do 9º ano utilizando as camadas óssea e muscular do visualizador 3D.",
@@ -424,7 +424,7 @@ async function main() {
     }
   });
 
-  const topic3 = await prisma.forumTopic.create({
+  await prisma.forumTopic.create({
     data: {
       title: "Cladística de Sauropodomorpha basais: Buriolestes e a origem da herbivoria",
       content: "A posição filogenética de Buriolestes schultzi como sauropodomorpha carnívoro consolida a hipótese de que a transição morfológica para herbivoria estrita envolveu plasticidade trófica intermediária?",

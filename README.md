@@ -22,19 +22,20 @@ O **DinoPédia** resolve a carência de plataformas integradas e acessíveis que
 
 ### 2.2 Explicação Adaptativa por Faixa Etária (ADR-002)
 - **Chave Seletora Global de Linguagem:**
-  - 🧒 **Infantil (6 a 10 anos):** Analogias cotidianas (ex: *"tamanho de 3 ônibus empilhados"*), foco lúdico e entusiasmo didático.
-  - 🎒 **Curioso / Escolar (11 a 17 anos):** Ecologia, papel trófico, adaptações anatômicas e contexto temporal geológico.
-  - 🔬 **Científico / Acadêmico (Ensino Superior):** Cladística, sinapomorfias osteológicas, holótipos, fenestras cranianas, matriz filogenética e estratigrafia formal.
+  - **Infantil (6 a 10 anos):** Analogias cotidianas (ex: *"tamanho de 3 ônibus empilhados"*), foco lúdico e entusiasmo didático.
+  - **Curioso / Escolar (11 a 17 anos):** Ecologia, papel trófico, adaptações anatômicas e contexto temporal geológico.
+  - **Científico / Acadêmico (Ensino Superior):** Cladística, sinapomorfias osteológicas, holótipos, fenestras cranianas, matriz filogenética e estratigrafia formal.
 - **Suporte Nativo a Triplas no Banco de Dados:** Campos `desc_infantil`, `desc_escolar` e `desc_academica` persistidos no SQLite via Prisma ORM.
 - **Paleo-IA Integrada:** Gerador dinâmico de explicações para dúvidas livres com minidicionário paleontológico adaptado.
 
 ### 2.3 Laboratório Anatômico 3D (ADR-001)
 - **Renderização WebGL de Alta Performance:** Construído com **Three.js** e **React Three Fiber (R3F)** integrado ao Next.js.
 - **Camadas Anatômicas Alternáveis:**
-  - 🦴 **Esqueleto:** Osteologia detalhada, crânio, fenestras, coluna vertebral, caixa torácica e membros locomotores.
-  - 🥩 **Músculos:** Inserções miológicas, músculo adutor mandibular e *m. caudofemoralis longus*.
-  - 🦎 **Pele & Penas:** Tegumento dérmico escamoso, osteodermas, velas dorsais e protopenas.
+  - **Esqueleto:** Osteologia detalhada, crânio, fenestras, coluna vertebral, caixa torácica e membros locomotores.
+  - **Músculos:** Inserções miológicas, músculo adutor mandibular e *m. caudofemoralis longus*.
+  - **Pele & Penas:** Tegumento dérmico escamoso, osteodermas, velas dorsais e protopenas.
 - **Hotspots Anatômicos Clicáveis:** Anotações com significância evolutiva diretamente sobre as estruturas 3D.
+- **Modelos Disponíveis no Catálogo:** Tyrannosaurus rex, Brachiosaurus altithorax, Triceratops horridus e Stegosaurus stenops, com geometrias específicas por grupo anatômico.
 - **Comparação de Escala em Tempo Real:** Silhuetas 3D comparativas com Humano (1.8m), Carro (4.5m) e Elefante Africano (3.2m).
 - **Acessibilidade por Voz:** Narração auditiva automatizada em português via Web Speech API.
 
@@ -57,6 +58,17 @@ O **DinoPédia** resolve a carência de plataformas integradas e acessíveis que
 - **Sincronizador PBDB (Paleobiology Database):** Importação e integração direta com a API pública global de ocorrências fósseis (`https://paleobiodb.org/data1.2/occs/list.json`).
 - **Dashboard de Saúde e SLAs:** Monitoramento de latência (<300ms SLA), disponibilidade (99.9%), e conformidade RTO (&lt;1h) / RPO (&lt;15min).
 
+### 2.8 Autenticação de Usuários
+- Cadastro e login em `/login` com nome, e-mail e senha.
+- Senhas protegidas com `scrypt` e sessões persistidas no SQLite por sete dias.
+- Cookie de sessão `httpOnly`, com suporte a login, consulta de sessão e logout pela rota `/api/auth`.
+
+### 2.9 Interface e Acessibilidade
+- Navegação simplificada com os módulos principais: Início, Catálogo, Quizzes e Fórum.
+- Identidade visual em roxo e magenta, sem logomarca institucional na interface.
+- Ícone de Tiranossauro Rex em SVG no favicon, na navbar e no rodapé.
+- Alto contraste, ajuste de fonte, foco visível para teclado e suporte a `prefers-reduced-motion`.
+
 ---
 
 ## 3. Arquitetura do Sistema e Stack Tecnológico
@@ -70,6 +82,7 @@ O **DinoPédia** resolve a carência de plataformas integradas e acessíveis que
 | **Acessibilidade** | WCAG 2.1 AA Compliant | Alto contraste, escalonamento de fontes e TTS |
 | **Banco Relacional** | SQLite | Persistência local rápida de táxons e discussões |
 | **ORM / Migrations** | Prisma ORM 6.4 | Modelagem tipada, migrations e seeds |
+| **Autenticação** | Node.js Crypto + cookies HTTP | Senhas com scrypt e sessões persistidas |
 | **Protocolos de API** | REST + GraphQL Schema Engine | Endpoints flexíveis para consulta filogenética |
 | **Integração Externa** | PBDB REST API | Ocorrências paleobiológicas em tempo real |
 | **Monitoramento** | `/api/healthz` e `/api/readyz` | Checagem de disponibilidade compatível com Prometheus |
@@ -80,12 +93,14 @@ O **DinoPédia** resolve a carência de plataformas integradas e acessíveis que
 
 ```
 ceub_projeto_seminario_web_2026/
+├── .env.example            # Configuração padrão do SQLite
 ├── prisma/
 │   ├── schema.prisma        # Modelagem de dados (Species, ForumTopic, QuizQuestion, etc.)
 │   └── seed.ts              # Povoamento inicial com espécies brasileiras e mundiais
 ├── src/
 │   ├── app/
 │   │   ├── api/
+│   │   │   ├── auth/       # Cadastro, login, sessão e logout
 │   │   │   ├── ai-explain/  # Gerador adaptativo por IA (Infantil, Escolar, Acadêmico)
 │   │   │   ├── forum/       # API do fórum moderado RBAC
 │   │   │   ├── graphql/     # Endpoint GraphQL de dados taxonômicos
@@ -100,6 +115,8 @@ ceub_projeto_seminario_web_2026/
 │   │   ├── forum/           # Página da Comunidade Paleontológica
 │   │   ├── paleoecologia/   # Deriva Continental e Simulador Trófico
 │   │   ├── quiz/            # Modo Gamificado e Desafios
+│   │   ├── login/           # Tela de cadastro e login
+│   │   ├── icon.svg         # Favicon SVG de Tiranossauro Rex
 │   │   ├── globals.css      # Estilos globais e modo de Alto Contraste
 │   │   ├── layout.tsx       # Root Layout e meta tags
 │   │   └── page.tsx         # Homepage DinoPédia
@@ -108,6 +125,7 @@ ceub_projeto_seminario_web_2026/
 │   │   ├── ai/              # AIExplainerBox (Pedagogical Language Generator)
 │   │   └── layout/          # Navbar, Footer e ClientShell de acessibilidade
 │   └── lib/
+│       ├── auth.ts         # Hash de senha e gerenciamento de sessões
 │       ├── prisma.ts        # Singleton de conexão SQLite
 │       ├── sound.ts         # Sintetizador Web Audio API e TTS
 │       └── store.ts         # Store Zustand unificada
@@ -151,13 +169,20 @@ ceub_projeto_seminario_web_2026/
    npm install
    ```
 
-4. **Sincronizar o Banco de Dados SQLite e Rodar o Seed:**
+4. **Configurar o banco SQLite:**
+   ```bash
+   # PowerShell
+   Copy-Item .env.example .env
+   ```
+   O servidor também usa `file:./dev.db` automaticamente quando `DATABASE_URL` não estiver definida.
+
+5. **Sincronizar o Banco de Dados SQLite e Rodar o Seed:**
    ```bash
    npm run db:push
    npm run db:seed
    ```
 
-5. **Iniciar o Servidor de Desenvolvimento:**
+6. **Iniciar o Servidor de Desenvolvimento:**
    ```bash
    npm run dev
    ```
@@ -168,7 +193,7 @@ ceub_projeto_seminario_web_2026/
 > `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`  
 > Ou execute chamando explicitamente `npm.cmd run dev`.
 
-6. **Gerar Build de Produção:**
+7. **Gerar Build de Produção:**
    ```bash
    npm run build
    npm run start
@@ -179,6 +204,7 @@ ceub_projeto_seminario_web_2026/
 ## 6. Endpoints de Teste e Validação
 
 - **Catálogo REST:** `http://localhost:3000/api/species`
+- **Autenticação:** `http://localhost:3000/api/auth`
 - **GraphQL Schema:** `http://localhost:3000/api/graphql`
 - **Sincronizador PBDB:** `http://localhost:3000/api/pbdb`
 - **Health Check (SLA <300ms):** `http://localhost:3000/api/healthz`

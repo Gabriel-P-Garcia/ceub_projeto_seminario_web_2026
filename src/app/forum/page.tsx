@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useAppStore, UserRole } from "@/lib/store";
+import React, { useCallback, useEffect, useState } from "react";
+import { useAppStore } from "@/lib/store";
 import { playSound } from "@/lib/sound";
 import {
   MessageSquare,
@@ -10,7 +10,6 @@ import {
   Pin,
   Send,
   PlusCircle,
-  User,
 } from "lucide-react";
 
 interface Post {
@@ -53,11 +52,7 @@ export default function ForumPage() {
   const [replyContent, setReplyContent] = useState("");
   const [submittingReply, setSubmittingReply] = useState(false);
 
-  useEffect(() => {
-    fetchTopics();
-  }, [categoryFilter]);
-
-  async function fetchTopics() {
+  const fetchTopics = useCallback(async () => {
     setLoading(true);
     try {
       const url = categoryFilter === "all" ? "/api/forum" : `/api/forum?category=${categoryFilter}`;
@@ -65,16 +60,22 @@ export default function ForumPage() {
       const json = await res.json();
       if (json.success) {
         setTopics(json.data);
-        if (json.data.length > 0 && !selectedTopic) {
-          setSelectedTopic(json.data[0]);
-        }
+        setSelectedTopic((current) => current ?? json.data[0] ?? null);
       }
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
     }
-  }
+  }, [categoryFilter]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetchTopics();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [fetchTopics]);
 
   const handleCreateTopic = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,7 +140,7 @@ export default function ForumPage() {
     }
   };
 
-  const getRoleBadge = (role: string, verified: boolean) => {
+  const getRoleBadge = (role: string) => {
     if (role === "Paleontólogo Curador") {
       return (
         <span className="inline-flex items-center gap-1 bg-[#be007a]/20 text-[#f43f9e] border border-[#be007a]/40 text-[10px] px-2 py-0.5 rounded-full font-bold">
@@ -150,7 +151,7 @@ export default function ForumPage() {
     if (role === "Professor") {
       return (
         <span className="inline-flex items-center gap-1 bg-purple-500/20 text-purple-200 border border-purple-500/30 text-[10px] px-2 py-0.5 rounded-full font-bold">
-          👨‍🏫 Professor
+          Professor
         </span>
       );
     }
@@ -163,7 +164,7 @@ export default function ForumPage() {
     }
     return (
       <span className="bg-[#280540] text-purple-200 text-[10px] px-2 py-0.5 rounded-full">
-        🎒 Aluno
+        Aluno
       </span>
     );
   };
@@ -295,7 +296,7 @@ export default function ForumPage() {
                   <span className="text-xs font-semibold text-purple-200">
                     {selectedTopic.authorName}
                   </span>
-                  {getRoleBadge(selectedTopic.authorRole, selectedTopic.isVerified)}
+                  {getRoleBadge(selectedTopic.authorRole)}
                 </div>
 
                 <p className="text-sm text-purple-100 leading-relaxed pt-2">
@@ -317,7 +318,7 @@ export default function ForumPage() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-white">{p.authorName}</span>
-                          {getRoleBadge(p.authorRole, p.isVerified)}
+                          {getRoleBadge(p.authorRole)}
                         </div>
                       </div>
                       <p className="text-purple-100 leading-relaxed text-sm">{p.content}</p>

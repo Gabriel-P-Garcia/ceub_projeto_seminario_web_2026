@@ -1,34 +1,25 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Shield, Cpu, Activity, Database, CheckCircle2 } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="w-full bg-[#0d0118] border-t border-[#3c0554]/60 text-purple-200/80 py-12 px-4 transition-colors">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-10 text-xs">
-        {/* Coluna 1: Sobre & Logo CEUB */}
+        {/* Coluna 1: Sobre */}
         <div className="md:col-span-1 space-y-3">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">🦕</span>
+            <Image src="/dinosaur-trex.svg" alt="Tiranossauro Rex" width={28} height={28} className="h-7 w-7" />
             <span className="text-lg font-bold text-white tracking-tight">
               Dino<span className="text-[#be007a]">Pédia</span>
             </span>
           </div>
 
-          <div className="inline-block bg-white p-2 rounded-lg shadow-md border border-[#3c0554]/40 my-1">
-            <img
-              src="/ceub-logo.png"
-              alt="Logomarca Oficial CEUB"
-              className="h-6 w-auto object-contain"
-            />
-          </div>
-
           <p className="text-purple-300/80 leading-relaxed text-[11px]">
-            Plataforma web educativa e interativa de paleobiologia, evolução e anatomia comparada de dinossauros. Desenvolvida com a identidade visual oficial do CEUB.
+            Plataforma web educativa e interativa de paleobiologia, evolução e anatomia comparada de dinossauros.
           </p>
-          <div className="text-[11px] text-[#f43f9e] font-mono font-semibold">
-            Centro Universitário de Brasília • 2026
-          </div>
+          <div className="text-[11px] text-[#f43f9e] font-mono font-semibold">Seminário Web • 2026</div>
         </div>
 
         {/* Coluna 2: Equipe e Autoria */}
@@ -39,7 +30,6 @@ export default function Footer() {
           <ul className="space-y-1.5">
             <li className="text-slate-100 font-medium">Gabriel Caramez</li>
             <li className="text-slate-100 font-medium">Gabriel Pereira Garcia</li>
-            <li className="text-purple-400 text-[11px]">Centro Universitário de Brasília (CEUB)</li>
             <li className="text-purple-400 text-[11px]">Seminário Web & Arquitetura de Software</li>
           </ul>
         </div>
@@ -94,11 +84,11 @@ export default function Footer() {
             <Database className="w-3.5 h-3.5 text-purple-300" /> GraphQL Endpoint
           </Link>
           <Link href="/api/pbdb" target="_blank" className="hover:text-[#f43f9e] flex items-center gap-1">
-            🌐 PBDB Sync API
+            PBDB Sync API
           </Link>
         </div>
         <p className="text-purple-400">
-          © 2026 DinoPédia • CEUB. Todos os direitos reservados.
+          © 2026 DinoPédia. Todos os direitos reservados.
         </p>
       </div>
     </footer>

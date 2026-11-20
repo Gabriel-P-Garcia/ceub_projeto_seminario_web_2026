@@ -30,9 +30,9 @@ export async function POST(request: NextRequest) {
 
     // Adaptação por Faixa Etária (ADR-002)
     if (level === "infantil") {
-      readingLevelLabel = "Nível Infantil (6-10 anos) 🧒";
+      readingLevelLabel = "Nível Infantil (6-10 anos)";
       if (species) {
-        explanation = `Olá, pequeno paleontólogo! 🦕 Sobre o ${species.name}: ${species.descInfantil} Imagine só: ele pesava cerca de ${(species.weight / 1000).toFixed(1)} toneladas (isso é como vários carros empilhados!) e tinha ${species.length} metros de comprimento! Ele adorava viver no período ${species.periodEra}.`;
+        explanation = `Olá, pequeno paleontólogo! Sobre o ${species.name}: ${species.descInfantil} Imagine só: ele pesava cerca de ${(species.weight / 1000).toFixed(1)} toneladas (isso é como vários carros empilhados!) e tinha ${species.length} metros de comprimento! Ele adorava viver no período ${species.periodEra}.`;
       } else {
         explanation = `Que pergunta legal sobre "${queryText}"! No tempo dos dinossauros, a Terra era bem diferente: não existiam cidades e plantas gigantes cobriam o chão. Dinossauros eram répteis especiais com pernas retas embaixo do corpo que botavam ovos com casca dura!`;
       }
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         { term: "Herbívoro", definition: "Bicho que só come plantinhas e folhas." },
       ];
     } else if (level === "escolar") {
-      readingLevelLabel = "Nível Curioso / Escolar (11-17 anos) 🎒";
+      readingLevelLabel = "Nível Curioso / Escolar (11-17 anos)";
       if (species) {
         explanation = `O ${species.name} foi um organismo fascinante do clado ${species.clade}. ${species.descEscolar} Seus fósseis foram documentados em ${species.fossilLocations}, datando de ${species.mya}. Sua biomecânica permitia atingir cerca de ${species.speed} km/h e exercer seu papel trófico como ${species.diet.toLowerCase()}. ${species.funFact}`;
       } else {
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       ];
     } else {
       // Acadêmico
-      readingLevelLabel = "Nível Científico / Acadêmico (Ensino Superior) 🔬";
+      readingLevelLabel = "Nível Científico / Acadêmico (Ensino Superior)";
       if (species) {
         explanation = `Diagnose taxonômica e filogenética de ${species.name} (${species.family}, ${species.clade}): ${species.descAcademica} Registro estratigráfico: ${species.period} (${species.mya}). Aspectos osteológicos e biomecânicos: ${species.skeletonNotes} Inserções miológicas: ${species.muscleNotes} Evidências tegumentares: ${species.integumentNotes}. Biogeografia de ocorrência: ${species.fossilLocations} (${species.brazilOccurrence ? "Província paleontológica brasileira com alta relevância de correlação gondwânica" : "Província laurasiática/internacional"}).`;
       } else {

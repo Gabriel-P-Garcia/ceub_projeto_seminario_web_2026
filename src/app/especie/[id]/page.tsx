@@ -10,15 +10,9 @@ import AIExplainerBox from "@/components/ai/AIExplainerBox";
 import {
   ArrowLeft,
   Volume2,
-  Calendar,
   MapPin,
   Sparkles,
-  Layers,
-  Activity,
-  Shield,
-  BookOpen,
   Box,
-  Compass,
 } from "lucide-react";
 
 interface Species {
@@ -59,7 +53,7 @@ export default function SpeciesDetailPage() {
   const { ageLevel, setAgeLevel } = useAppStore();
 
   const [species, setSpecies] = useState<Species | null>(null);
-  const [related, setRelated] = useState<any[]>([]);
+  const [related, setRelated] = useState<Species[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -146,7 +140,7 @@ export default function SpeciesDetailPage() {
                   : "text-purple-300 hover:text-white hover:bg-[#280540]"
               }`}
             >
-              {lvl === "infantil" ? "🧒 Infantil" : lvl === "escolar" ? "🎒 Escolar" : "🔬 Acadêmico"}
+              {lvl === "infantil" ? "Infantil" : lvl === "escolar" ? "Escolar" : "Acadêmico"}
             </button>
           ))}
         </div>
@@ -163,7 +157,7 @@ export default function SpeciesDetailPage() {
           </span>
           {species.brazilOccurrence && (
             <span className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-full font-bold">
-              🇧🇷 Registro Paleontológico no Brasil
+              Registro Paleontológico no Brasil
             </span>
           )}
         </div>
@@ -235,7 +229,7 @@ export default function SpeciesDetailPage() {
 
         {species.funFact && (
           <div className="bg-[#24033c] border border-[#59107b] p-3.5 rounded-xl text-xs text-fuchsia-200">
-            <span className="font-bold block mb-1 text-[#f43f9e]">💡 Curiosidade Paleontológica:</span>
+            <span className="font-bold block mb-1 text-[#f43f9e]">Curiosidade Paleontológica:</span>
             {species.funFact}
           </div>
         )}
@@ -267,21 +261,21 @@ export default function SpeciesDetailPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-[#17032a] border border-[#3c0554] rounded-2xl p-5 space-y-2">
           <h4 className="text-sm font-bold text-white flex items-center gap-2">
-            <span>🦴</span> Osteologia (Esqueleto)
+            Osteologia (Esqueleto)
           </h4>
           <p className="text-xs text-purple-200/90 leading-relaxed">{species.skeletonNotes}</p>
         </div>
 
         <div className="bg-[#17032a] border border-[#3c0554] rounded-2xl p-5 space-y-2">
           <h4 className="text-sm font-bold text-white flex items-center gap-2">
-            <span>🥩</span> Miologia (Musculatura)
+            Miologia (Musculatura)
           </h4>
           <p className="text-xs text-purple-200/90 leading-relaxed">{species.muscleNotes}</p>
         </div>
 
         <div className="bg-[#17032a] border border-[#3c0554] rounded-2xl p-5 space-y-2">
           <h4 className="text-sm font-bold text-white flex items-center gap-2">
-            <span>🦎</span> Tegumento (Pele & Penas)
+            Tegumento (Pele & Penas)
           </h4>
           <p className="text-xs text-purple-200/90 leading-relaxed">{species.integumentNotes}</p>
         </div>

@@ -6,7 +6,6 @@ import { useAppStore } from "@/lib/store";
 import { playSound } from "@/lib/sound";
 import AIExplainerBox from "@/components/ai/AIExplainerBox";
 import {
-  Compass,
   BookOpen,
   Box,
   Globe2,
@@ -135,7 +134,7 @@ export default function HomePage() {
             <div className="relative bg-[#17032a]/90 border border-[#59107b]/70 rounded-3xl p-6 shadow-2xl backdrop-blur-xl">
               <div className="flex items-center justify-between border-b border-[#3c0554] pb-3 mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">🦴</span>
+                  <span className="text-xl">Espécime</span>
                   <div>
                     <h3 className="font-bold text-white text-sm">Espécime em Evidência</h3>
                     <p className="text-[11px] text-[#f43f9e]">Tyrannosaurus rex (Maastrichtiano)</p>
@@ -149,7 +148,7 @@ export default function HomePage() {
               {/* Prévia Artística */}
               <div className="relative h-64 rounded-2xl overflow-hidden bg-gradient-to-br from-[#0c0116] via-[#1a042e] to-[#2d0545] border border-[#4a0a6a] flex flex-col items-center justify-center p-4 text-center group">
                 <div className="text-7xl mb-2 group-hover:scale-110 transition-transform duration-300">
-                  🦖
+                  Modelo 3D
                 </div>
                 <p className="text-xs text-purple-200 font-mono">
                   12.4m de comprimento • 8.4 toneladas
@@ -206,7 +205,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold">
-                <span>🇧🇷 Fósseis no Brasil</span>
+                <span>Fósseis no Brasil</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-white">
                 O Brasil como Berço Evolutivo e Santuário de Espinossauros
@@ -278,7 +277,7 @@ export default function HomePage() {
                     </div>
                     {species.brazilOccurrence && (
                       <span className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full shrink-0 font-bold">
-                        🇧🇷 Brasil
+                        Brasil
                       </span>
                     )}
                   </div>

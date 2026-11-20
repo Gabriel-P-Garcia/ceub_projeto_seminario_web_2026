@@ -79,10 +79,10 @@ export default function AIExplainerBox({ initialSpeciesName }: AIExplainerBoxPro
         <div className="self-start sm:self-auto bg-[#2b0544] border border-[#be007a]/50 px-3 py-1 rounded-full text-xs font-semibold text-fuchsia-200">
           Modo Ativo:{" "}
           {ageLevel === "infantil"
-            ? "Infantil 🧒"
+            ? "Infantil"
             : ageLevel === "escolar"
-            ? "Escolar 🎒"
-            : "Acadêmico 🔬"}
+            ? "Escolar"
+            : "Acadêmico"}
         </div>
       </div>
 

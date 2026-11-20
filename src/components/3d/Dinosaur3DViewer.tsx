@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { useAppStore } from "@/lib/store";
+import { ScaleTarget, useAppStore } from "@/lib/store";
 import { playSound, speakText } from "@/lib/sound";
 import {
   RotateCcw,
@@ -40,8 +40,6 @@ export default function Dinosaur3DViewer({
   lengthMeters,
   heightMeters,
   skeletonNotes,
-  muscleNotes,
-  integumentNotes,
 }: Dinosaur3DViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const {
@@ -103,6 +101,21 @@ export default function Dinosaur3DViewer({
           position: new THREE.Vector3(2.4, 2.7, 0.4),
           description: "Núcleos ósseos com bainhas córneas de mais de 1 metro de comprimento.",
           clinicalSignificance: "Armas de combate frontal contra predadores e disputas reprodutivas.",
+        },
+      ];
+    } else if (modelType === "stegosaur") {
+      return [
+        {
+          title: "Placas Dorsais",
+          position: new THREE.Vector3(0, 2.5, 0),
+          description: "Placas ósseas dispostas ao longo do dorso e da cauda.",
+          clinicalSignificance: "Estruturas relacionadas à sinalização visual e à termorregulação.",
+        },
+        {
+          title: "Tágomizer",
+          position: new THREE.Vector3(-2.6, 1.8, 0),
+          description: "Conjunto de espinhos na extremidade da cauda.",
+          clinicalSignificance: "Defesa eficaz contra predadores que atacavam os flancos.",
         },
       ];
     } else {
@@ -226,7 +239,14 @@ export default function Dinosaur3DViewer({
     });
 
     const skinMaterial = new THREE.MeshStandardMaterial({
-      color: modelType === "sauropod" ? 0x22543d : modelType === "ceratopsian" ? 0x9a3412 : 0x7e22ce,
+      color:
+        modelType === "sauropod"
+          ? 0x22543d
+          : modelType === "ceratopsian"
+          ? 0x9a3412
+          : modelType === "stegosaur"
+          ? 0x166534
+          : 0x7e22ce,
       roughness: 0.7,
       transparent: true,
       opacity: 0.82,
@@ -295,6 +315,64 @@ export default function Dinosaur3DViewer({
       skinN.position.set(1.8, 2.8, 0);
       skinN.rotation.z = -Math.PI / 3.5;
       integumentGroup.add(skinN);
+    } else if (modelType === "stegosaur") {
+      const body = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.15, 1.15), boneMaterial);
+      body.position.set(-0.2, 1.65, 0);
+      skeletonGroup.add(body);
+
+      const skull = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.45, 0.55), boneMaterial);
+      skull.position.set(1.45, 1.55, 0);
+      skeletonGroup.add(skull);
+
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.48, 0.9, 8), boneMaterial);
+      neck.position.set(1.05, 1.65, 0);
+      neck.rotation.z = Math.PI / 2;
+      skeletonGroup.add(neck);
+
+      [-0.75, 0.65].forEach((x) => {
+        [-0.42, 0.42].forEach((z) => {
+          const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 1.25, 8), boneMaterial);
+          leg.position.set(x, 0.65, z);
+          skeletonGroup.add(leg);
+        });
+      });
+
+      const tail = new THREE.Mesh(new THREE.ConeGeometry(0.42, 2.4, 10), boneMaterial);
+      tail.position.set(-1.85, 1.75, 0);
+      tail.rotation.z = -Math.PI / 2;
+      skeletonGroup.add(tail);
+
+      const spine = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.45, 2.2, 12), muscleMaterial);
+      spine.position.set(-0.2, 1.65, 0);
+      spine.rotation.z = Math.PI / 2;
+      muscleGroup.add(spine);
+
+      const skinBody = new THREE.Mesh(new THREE.BoxGeometry(2.5, 1.25, 1.25), skinMaterial);
+      skinBody.position.set(-0.2, 1.65, 0);
+      integumentGroup.add(skinBody);
+
+      const skinHead = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.5, 0.6), skinMaterial);
+      skinHead.position.set(1.45, 1.55, 0);
+      integumentGroup.add(skinHead);
+
+      for (let i = 0; i < 10; i++) {
+        const plate = new THREE.Mesh(
+          new THREE.ConeGeometry(0.22 - (i % 2) * 0.04, 0.7 + (i % 3) * 0.12, 4),
+          skinMaterial
+        );
+        plate.position.set(0.85 - i * 0.23, 2.35 + (i % 2) * 0.08, 0);
+        plate.rotation.z = Math.PI / 2;
+        integumentGroup.add(plate);
+      }
+
+      [-0.42, 0.42].forEach((z) => {
+        [-2.7, -2.45].forEach((x) => {
+          const spike = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.7, 6), skinMaterial);
+          spike.position.set(x, 1.75, z);
+          spike.rotation.x = z > 0 ? Math.PI / 2 : -Math.PI / 2;
+          integumentGroup.add(spike);
+        });
+      });
     } else {
       // Terópodes
       const skullGeo = new THREE.BoxGeometry(1.4, 0.7, 0.6);
@@ -579,7 +657,7 @@ export default function Dinosaur3DViewer({
     renderer.domElement.addEventListener("click", onCanvasClick);
 
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
@@ -620,7 +698,7 @@ export default function Dinosaur3DViewer({
       renderer.dispose();
       if (container) container.innerHTML = "";
     };
-  }, [modelType, speciesName, hotspots, autoRotate]);
+  }, [modelType, speciesName, hotspots, autoRotate, scaleTarget]);
 
   useEffect(() => {
     if (!skeletonGroupRef.current || !muscleGroupRef.current || !integumentGroupRef.current)
@@ -742,7 +820,7 @@ export default function Dinosaur3DViewer({
                 : "text-purple-200 hover:bg-[#280540]"
             }`}
           >
-            🦴 Esqueleto
+            Esqueleto
           </button>
           <button
             onClick={() => {
@@ -755,7 +833,7 @@ export default function Dinosaur3DViewer({
                 : "text-purple-200 hover:bg-[#280540]"
             }`}
           >
-            🥩 Músculos
+            Músculos
           </button>
           <button
             onClick={() => {
@@ -768,7 +846,7 @@ export default function Dinosaur3DViewer({
                 : "text-purple-200 hover:bg-[#280540]"
             }`}
           >
-            🦎 Pele & Penas
+            Pele & Penas
           </button>
         </div>
 
@@ -778,7 +856,10 @@ export default function Dinosaur3DViewer({
           <select
             value={scaleTarget}
             onChange={(e) => {
-              setScaleTarget(e.target.value as any);
+              const value = e.target.value;
+              if (["none", "human", "car", "elephant", "ostrich", "crocodile"].includes(value)) {
+                setScaleTarget(value as ScaleTarget);
+              }
               playSound("click");
             }}
             className="bg-[#280540] text-fuchsia-200 font-medium rounded-lg px-2 py-1 border border-[#59107b] focus:outline-none focus:ring-1 focus:ring-[#be007a]"

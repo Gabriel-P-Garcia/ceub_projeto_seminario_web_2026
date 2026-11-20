@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { playSound } from "@/lib/sound";
-import { useAppStore } from "@/lib/store";
 import {
   Globe2,
   TreePine,
@@ -13,8 +12,6 @@ import {
 } from "lucide-react";
 
 export default function PaleoecologiaPage() {
-  const { ageLevel } = useAppStore();
-
   const [selectedEra, setSelectedEra] = useState<"triassico" | "jurassico" | "cretaceo">("cretaceo");
 
   const [vegetation, setVegetation] = useState(80);
@@ -73,7 +70,7 @@ export default function PaleoecologiaPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span className="text-[#be007a]">🌍</span> Deriva Continental & Paleobiogeografia
+              Deriva Continental & Paleobiogeografia
             </h2>
             <p className="text-xs text-purple-300">
               Observe a separação das placas tectônicas e como os fósseis se distribuíram entre continentes.
@@ -168,7 +165,7 @@ export default function PaleoecologiaPage() {
 
                   <circle cx="340" cy="210" r="7" fill="#be007a" stroke="#ffffff" strokeWidth="2" />
                   <text x="355" y="215" fill="#f43f9e" fontSize="11" fontWeight="bold">
-                    📍 Santa Maria (Buriolestes)
+                    Santa Maria (Buriolestes)
                   </text>
                 </g>
               )}
@@ -201,7 +198,7 @@ export default function PaleoecologiaPage() {
 
                   <circle cx="280" cy="95" r="7" fill="#be007a" stroke="#ffffff" strokeWidth="2" />
                   <text x="210" y="85" fill="#f43f9e" fontSize="10">
-                    📍 Formação Morrison (Brachiosaurus)
+                    Formação Morrison (Brachiosaurus)
                   </text>
                 </g>
               )}
@@ -250,12 +247,12 @@ export default function PaleoecologiaPage() {
 
                   <circle cx="315" cy="195" r="7" fill="#be007a" stroke="#ffffff" strokeWidth="2" />
                   <text x="140" y="195" fill="#f43f9e" fontSize="10" fontWeight="bold">
-                    📍 Araripe & Cajual (Oxalaia / Irritator)
+                    Araripe & Cajual (Oxalaia / Irritator)
                   </text>
 
                   <circle cx="230" cy="95" r="7" fill="#f43f9e" stroke="#ffffff" strokeWidth="2" />
                   <text x="110" y="90" fill="#f5d0fe" fontSize="10">
-                    📍 Hell Creek (T-Rex)
+                    Hell Creek (T-Rex)
                   </text>
                 </g>
               )}
@@ -302,7 +299,7 @@ export default function PaleoecologiaPage() {
               className="bg-[#be007a] hover:bg-[#d8008b] disabled:opacity-40 text-white font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-[#be007a]/30"
             >
               <Flame className="w-4 h-4 animate-bounce" />
-              <span>💥 Asteroide K-Pg (66 Ma)</span>
+              <span>Asteroide K-Pg (66 Ma)</span>
             </button>
 
             <button
@@ -408,7 +405,7 @@ export default function PaleoecologiaPage() {
             <div className="space-y-3">
               <div className="bg-[#24033c] border border-[#59107b] p-3 rounded-xl flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">🦖</span>
+                  <span className="text-xl">Predador</span>
                   <div>
                     <span className="font-bold text-fuchsia-200 block">Predadores de Topo</span>
                     <span className="text-purple-300 text-[11px]">T-Rex, Oxalaia, Spinosaurus</span>
@@ -424,7 +421,7 @@ export default function PaleoecologiaPage() {
 
               <div className="bg-[#1f0333] border border-[#4a0a6a] p-3 rounded-xl flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">🦕</span>
+                  <span className="text-xl">Herbívoro</span>
                   <div>
                     <span className="font-bold text-purple-200 block">Herbívoros Primários</span>
                     <span className="text-purple-300 text-[11px]">Brachiosaurus, Triceratops, Ankylosaurus</span>
@@ -440,7 +437,7 @@ export default function PaleoecologiaPage() {
 
               <div className="bg-emerald-950/40 border border-emerald-900/50 p-3 rounded-xl flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">🌿</span>
+                  <span className="text-xl">Vegetação</span>
                   <div>
                     <span className="font-bold text-emerald-300 block">Produtores Primários</span>
                     <span className="text-purple-300 text-[11px]">Coníferas, Samambaias, Cicadáceas</span>

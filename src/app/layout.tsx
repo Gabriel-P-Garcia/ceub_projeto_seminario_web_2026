@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     "Biologia",
     "CEUB",
   ],
+  icons: {
+    icon: "/dinosaur-trex.svg",
+    shortcut: "/dinosaur-trex.svg",
+  },
 };
 
 export default function RootLayout({

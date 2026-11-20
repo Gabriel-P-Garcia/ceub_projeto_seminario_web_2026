@@ -7,13 +7,8 @@ import { useAppStore } from "@/lib/store";
 import { playSound } from "@/lib/sound";
 import {
   Search,
-  Filter,
   Box,
   MapPin,
-  Calendar,
-  Layers,
-  Sparkles,
-  ArrowUpDown,
   RotateCcw,
 } from "lucide-react";
 
@@ -137,7 +132,7 @@ function CatalogoContent() {
         <div className="flex items-center gap-2 bg-[#17032a] border border-[#4a0a6a] px-3 py-1.5 rounded-xl text-xs">
           <span className="text-purple-300">Modo de Leitura:</span>
           <span className="text-[#f43f9e] font-bold uppercase">
-            {ageLevel === "infantil" ? "🧒 Infantil" : ageLevel === "escolar" ? "🎒 Escolar" : "🔬 Acadêmico"}
+            {ageLevel === "infantil" ? "Infantil" : ageLevel === "escolar" ? "Escolar" : "Acadêmico"}
           </span>
         </div>
       </div>
@@ -221,7 +216,10 @@ function CatalogoContent() {
             <select
               value={sortBy}
               onChange={(e) => {
-                setSortBy(e.target.value as any);
+                const value = e.target.value;
+                if (value === "name" || value === "length" || value === "weight" || value === "mya") {
+                  setSortBy(value);
+                }
                 playSound("click");
               }}
               className="w-full bg-[#0c0116] border border-[#4a0a6a] rounded-lg p-2 text-purple-200 focus:outline-none focus:border-[#be007a]"
@@ -244,7 +242,6 @@ function CatalogoContent() {
                   : "bg-[#0c0116] text-purple-200 border-[#4a0a6a] hover:bg-[#280540]"
               }`}
             >
-              <span>🇧🇷</span>
               <span>Apenas Brasil</span>
             </button>
           </div>
@@ -270,7 +267,7 @@ function CatalogoContent() {
         </div>
       ) : filteredSpecies.length === 0 ? (
         <div className="bg-[#17032a]/60 border border-[#3c0554] rounded-2xl p-12 text-center space-y-3">
-          <span className="text-4xl block">🔍</span>
+          <Search className="mx-auto h-10 w-10 text-[#be007a]" aria-hidden="true" />
           <h3 className="text-lg font-bold text-white">Nenhuma espécie encontrada</h3>
           <p className="text-xs text-purple-300 max-w-sm mx-auto">
             Tente remover alguns filtros ou buscar por termos mais amplos (ex: &quot;Theropoda&quot;, &quot;Brasil&quot;, &quot;Cretáceo&quot;).
@@ -302,7 +299,7 @@ function CatalogoContent() {
 
                   {species.brazilOccurrence && (
                     <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full font-bold">
-                      🇧🇷 Brasil
+                      Brasil
                     </span>
                   )}
                 </div>

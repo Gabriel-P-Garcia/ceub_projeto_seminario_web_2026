@@ -6,20 +6,39 @@ import { playSound } from "@/lib/sound";
 import {
   ShieldCheck,
   PlusCircle,
-  Database,
   Activity,
   CheckCircle2,
   RefreshCw,
   Globe,
 } from "lucide-react";
 
+interface HealthData {
+  status?: string;
+  latencyMs?: number;
+}
+
+interface ReadyData {
+  status?: string;
+  speciesIndexed?: number;
+}
+
+interface PbdbRecord {
+  oid: string;
+  taxonName: string;
+  formation?: string;
+  period?: string;
+  lat: number;
+  lng: number;
+  country: string;
+}
+
 export default function CuradoriaPage() {
   const { userRole } = useAppStore();
 
   const [activeTab, setActiveTab] = useState<"especies" | "pbdb" | "health">("especies");
-  const [healthData, setHealthData] = useState<any>(null);
-  const [readyData, setReadyData] = useState<any>(null);
-  const [pbdbRecords, setPbdbRecords] = useState<any[]>([]);
+  const [healthData, setHealthData] = useState<HealthData | null>(null);
+  const [readyData, setReadyData] = useState<ReadyData | null>(null);
+  const [pbdbRecords, setPbdbRecords] = useState<PbdbRecord[]>([]);
   const [syncingPbdb, setSyncingPbdb] = useState(false);
   const [pbdbStatus, setPbdbStatus] = useState<string>("");
 
@@ -316,7 +335,7 @@ export default function CuradoriaPage() {
                 }
                 className="w-full bg-[#0c0116] border border-[#4a0a6a] rounded-xl p-2.5 text-purple-100 focus:outline-none focus:border-[#be007a]"
               >
-                <option value="sim">Sim (Brasil 🇧🇷)</option>
+                <option value="sim">Sim (Brasil)</option>
                 <option value="nao">Não (Internacional)</option>
               </select>
             </div>
@@ -324,12 +343,12 @@ export default function CuradoriaPage() {
 
           <div className="space-y-4 pt-4 border-t border-[#3c0554]">
             <h3 className="text-sm font-bold text-[#f43f9e] uppercase tracking-wide flex items-center gap-1.5">
-              <span>📚</span> ADR-002: Triplas de Conteúdo Pedagógico CEUB
+              ADR-002: Triplas de Conteúdo Pedagógico CEUB
             </h3>
 
             <div>
               <label className="text-purple-300 font-semibold block mb-1">
-                1. Descrição Nível Infantil (6-10 anos) 🧒
+                1. Descrição Nível Infantil (6-10 anos)
               </label>
               <textarea
                 rows={2}
@@ -342,7 +361,7 @@ export default function CuradoriaPage() {
 
             <div>
               <label className="text-purple-300 font-semibold block mb-1">
-                2. Descrição Nível Curioso / Escolar (11-17 anos) 🎒
+                2. Descrição Nível Curioso / Escolar (11-17 anos)
               </label>
               <textarea
                 rows={2}
@@ -355,7 +374,7 @@ export default function CuradoriaPage() {
 
             <div>
               <label className="text-purple-300 font-semibold block mb-1">
-                3. Descrição Nível Científico / Acadêmico (Ensino Superior) 🔬
+                3. Descrição Nível Científico / Acadêmico (Ensino Superior)
               </label>
               <textarea
                 rows={2}
